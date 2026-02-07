@@ -6,12 +6,16 @@ import { BootScreen } from "@/components/sections/BootScreen";
 import { TerminalWindow, TypingText, NeonButton, StatusBar } from "@/components/terminal";
 import { cn } from "@/lib/utils";
 
+// Import project images
+import ecommerceDashboard from "@/assets/projects/ecommerce-dashboard.jpg";
+import realtimeChat from "@/assets/projects/realtime-chat.jpg";
+import cryptoTracker from "@/assets/projects/crypto-tracker.jpg";
+
 const Home = () => {
   const [showBoot, setShowBoot] = useState(true);
   const [showContent, setShowContent] = useState(false);
 
   useEffect(() => {
-    // Check if boot was already shown in this session
     const bootShown = sessionStorage.getItem("bootShown");
     if (bootShown) {
       setShowBoot(false);
@@ -29,11 +33,31 @@ const Home = () => {
     return <BootScreen onComplete={handleBootComplete} />;
   }
 
+  const featuredProjects = [
+    { 
+      name: "E-Commerce Dashboard", 
+      tech: ["React", "Node.js", "PostgreSQL"], 
+      status: "completed",
+      image: ecommerceDashboard
+    },
+    { 
+      name: "Real-Time Chat App", 
+      tech: ["Socket.io", "MongoDB", "Express"], 
+      status: "running",
+      image: realtimeChat
+    },
+    { 
+      name: "Crypto Portfolio Tracker", 
+      tech: ["React", "Web3.js", "GraphQL"], 
+      status: "completed",
+      image: cryptoTracker
+    },
+  ];
+
   return (
     <MainLayout>
       {/* Hero Section */}
       <section className="min-h-[90vh] flex items-center relative overflow-hidden">
-        {/* Decorative grid */}
         <div className="absolute inset-0 grid-bg opacity-30" />
         
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 relative z-10">
@@ -43,7 +67,7 @@ const Home = () => {
               {/* Status Badge */}
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-neon-green/30 bg-neon-green/5">
                 <span className="w-2 h-2 bg-status-online rounded-full animate-pulse" />
-                <span className="font-mono text-xs text-neon-green">Available for hire</span>
+                <span className="font-mono text-xs text-neon-green">Available for hire • Remote Worldwide</span>
               </div>
 
               {/* Heading */}
@@ -57,7 +81,8 @@ const Home = () => {
                   <span className="text-foreground">Developer</span>
                 </h1>
                 <p className="text-lg text-muted-foreground max-w-lg font-mono">
-                  Building digital experiences with clean code, modern tech, and a passion for performance.
+                  Crafting scalable web applications with clean architecture, 
+                  modern frameworks, and a passion for exceptional user experiences.
                 </p>
               </div>
 
@@ -78,10 +103,10 @@ const Home = () => {
               {/* Social Links */}
               <div className="flex items-center gap-4 pt-4">
                 <span className="font-mono text-sm text-muted-foreground">Connect:</span>
-                <a href="#" className="p-2 hover:text-neon-green transition-colors">
+                <a href="https://github.com" target="_blank" rel="noopener noreferrer" className="p-2 hover:text-neon-green transition-colors">
                   <Github className="w-5 h-5" />
                 </a>
-                <a href="#" className="p-2 hover:text-neon-cyan transition-colors">
+                <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="p-2 hover:text-neon-cyan transition-colors">
                   <Linkedin className="w-5 h-5" />
                 </a>
               </div>
@@ -100,20 +125,24 @@ const Home = () => {
                   </div>
                   
                   <div className="pl-4 space-y-1 text-sm">
-                    <p><span className="text-neon-cyan">"name"</span>: <span className="text-foreground">"John Developer"</span>,</p>
+                    <p><span className="text-neon-cyan">"name"</span>: <span className="text-foreground">"Alex Developer"</span>,</p>
                     <p><span className="text-neon-cyan">"role"</span>: <span className="text-foreground">"Full-Stack Developer"</span>,</p>
-                    <p><span className="text-neon-cyan">"location"</span>: <span className="text-foreground">"San Francisco, CA"</span>,</p>
+                    <p><span className="text-neon-cyan">"location"</span>: <span className="text-foreground">"Remote Worldwide"</span>,</p>
                     <p><span className="text-neon-cyan">"experience"</span>: <span className="text-neon-green">5</span>,</p>
-                    <p><span className="text-neon-cyan">"skills"</span>: [</p>
+                    <p><span className="text-neon-cyan">"specialties"</span>: [</p>
                     <p className="pl-4"><span className="text-foreground">"React", "Node.js", "TypeScript",</span></p>
                     <p className="pl-4"><span className="text-foreground">"Python", "PostgreSQL", "AWS"</span></p>
+                    <p>],</p>
+                    <p><span className="text-neon-cyan">"passions"</span>: [</p>
+                    <p className="pl-4"><span className="text-foreground">"Clean Code", "System Design",</span></p>
+                    <p className="pl-4"><span className="text-foreground">"Open Source", "Mentoring"</span></p>
                     <p>],</p>
                     <p><span className="text-neon-cyan">"status"</span>: <span className="text-status-online">"online"</span></p>
                   </div>
 
                   <div className="border-t border-terminal-border pt-4 mt-4 space-y-2">
-                    <StatusBar label="Current Workload" value={35} variant="gradient" size="sm" />
-                    <StatusBar label="Coffee Level" value={85} variant="cyan" size="sm" />
+                    <StatusBar label="Availability" value={85} variant="gradient" size="sm" />
+                    <StatusBar label="Code Quality" value={95} variant="cyan" size="sm" />
                   </div>
                 </div>
               </TerminalWindow>
@@ -121,7 +150,7 @@ const Home = () => {
           </div>
         </div>
 
-        {/* Decorative elements */}
+        {/* Scroll indicator */}
         <div className="absolute bottom-10 left-1/2 -translate-x-1/2 animate-float">
           <div className="flex flex-col items-center gap-2">
             <span className="font-mono text-xs text-muted-foreground">scroll</span>
@@ -136,10 +165,10 @@ const Home = () => {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {[
               { label: "Years Experience", value: "5+" },
-              { label: "Projects Completed", value: "50+" },
+              { label: "Projects Shipped", value: "50+" },
               { label: "Technologies", value: "20+" },
-              { label: "Coffee Consumed", value: "∞" },
-            ].map((stat, index) => (
+              { label: "Happy Clients", value: "30+" },
+            ].map((stat) => (
               <div
                 key={stat.label}
                 className={cn(
@@ -175,11 +204,7 @@ const Home = () => {
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {[
-              { name: "E-Commerce Platform", tech: ["React", "Node.js", "PostgreSQL"], status: "completed" },
-              { name: "AI Dashboard", tech: ["Python", "TensorFlow", "React"], status: "running" },
-              { name: "Mobile Banking App", tech: ["React Native", "GraphQL"], status: "completed" },
-            ].map((project, index) => (
+            {featuredProjects.map((project, index) => (
               <div
                 key={project.name}
                 className={cn(
@@ -199,8 +224,12 @@ const Home = () => {
                   </span>
                 </div>
                 <div className="p-6 space-y-4">
-                  <div className="aspect-video bg-muted/30 rounded flex items-center justify-center">
-                    <span className="font-mono text-sm text-muted-foreground">preview.png</span>
+                  <div className="aspect-video bg-muted/30 rounded overflow-hidden border border-terminal-border">
+                    <img 
+                      src={project.image} 
+                      alt={project.name}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    />
                   </div>
                   <div>
                     <h3 className="font-semibold text-lg group-hover:text-neon-green transition-colors">
