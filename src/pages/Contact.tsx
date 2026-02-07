@@ -53,14 +53,14 @@ const Contact = () => {
         "  location - Show location",
         "  clear    - Clear terminal",
       ],
-      email: ["Email: contact@developer.dev"],
+      email: ["Email: hello@alexdev.io"],
       social: [
         "Social Links:",
-        "  GitHub:   github.com/developer",
-        "  LinkedIn: linkedin.com/in/developer",
-        "  Twitter:  twitter.com/developer",
+        "  GitHub:   github.com/alexdev",
+        "  LinkedIn: linkedin.com/in/alexdev",
+        "  Twitter:  @alexdev_io",
       ],
-      location: ["Location: San Francisco, CA, USA", "Timezone: PST (UTC-8)"],
+      location: ["Location: Remote Worldwide", "Timezone: Flexible (UTC-8 to UTC+2)"],
       clear: [],
     };
 
@@ -195,10 +195,10 @@ const Contact = () => {
               {/* Contact Info Cards */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {[
-                  { icon: Mail, label: "Email", value: "contact@developer.dev", href: "mailto:contact@developer.dev" },
-                  { icon: MapPin, label: "Location", value: "San Francisco, CA" },
-                  { icon: Phone, label: "Phone", value: "+1 (555) 123-4567" },
-                  { icon: Github, label: "GitHub", value: "@developer", href: "#" },
+                  { icon: Mail, label: "Email", value: "hello@alexdev.io", href: "mailto:hello@alexdev.io" },
+                  { icon: MapPin, label: "Location", value: "Remote Worldwide" },
+                  { icon: Phone, label: "Availability", value: "Flexible Hours" },
+                  { icon: Github, label: "GitHub", value: "@alexdev", href: "https://github.com" },
                 ].map((item) => (
                   <a
                     key={item.label}

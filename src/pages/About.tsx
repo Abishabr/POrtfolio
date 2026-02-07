@@ -29,25 +29,24 @@ const About = () => {
 
                   <div className="space-y-4 text-sm leading-relaxed">
                     <p>
-                      Hello! I'm a passionate full-stack developer with over 5 years 
-                      of experience building web applications that make a difference.
+                      Hello! I'm a passionate full-stack developer with 5+ years of 
+                      experience building production-ready web applications for startups 
+                      and enterprises worldwide.
                     </p>
                     <p>
-                      My journey in tech started when I wrote my first "Hello World" 
-                      program and discovered the magic of turning ideas into reality 
-                      through code. Since then, I've been hooked on creating elegant 
-                      solutions to complex problems.
+                      I specialize in React ecosystems, Node.js backends, and cloud-native 
+                      architectures. My focus is on creating performant, accessible, and 
+                      maintainable codebases that scale with your business needs.
                     </p>
                     <p>
-                      I specialize in building scalable web applications using modern 
-                      technologies like React, Node.js, and cloud platforms. I believe 
-                      in writing clean, maintainable code and creating user experiences 
-                      that feel intuitive and delightful.
+                      As a remote-first developer, I've collaborated with distributed teams 
+                      across different time zones, delivering projects ranging from MVP 
+                      prototypes to high-traffic production systems serving millions of users.
                     </p>
                     <p>
-                      When I'm not coding, you'll find me contributing to open-source 
-                      projects, writing technical articles, or exploring new technologies 
-                      that push the boundaries of what's possible on the web.
+                      I'm passionate about clean architecture, developer experience, and 
+                      mentoring junior developers. When not coding, I contribute to open-source 
+                      projects and write technical content on modern web development practices.
                     </p>
                   </div>
 
@@ -62,10 +61,10 @@ const About = () => {
               {/* Personal Info Cards */}
               <div className="grid grid-cols-2 gap-4">
                 {[
-                  { icon: MapPin, label: "Location", value: "San Francisco, CA" },
+                  { icon: MapPin, label: "Location", value: "Remote Worldwide" },
                   { icon: Calendar, label: "Experience", value: "5+ Years" },
-                  { icon: Award, label: "Projects", value: "50+ Completed" },
-                  { icon: Coffee, label: "Coffee/Day", value: "4 Cups" },
+                  { icon: Award, label: "Projects", value: "50+ Shipped" },
+                  { icon: Coffee, label: "Timezone", value: "Flexible" },
                 ].map((item) => (
                   <div
                     key={item.label}

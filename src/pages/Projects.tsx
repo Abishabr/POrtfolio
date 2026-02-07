@@ -4,6 +4,13 @@ import { TerminalWindow, ProcessList, NeonButton } from "@/components/terminal";
 import { ExternalLink, Github, Filter, Search } from "lucide-react";
 import { cn } from "@/lib/utils";
 
+// Import project images
+import ecommerceDashboard from "@/assets/projects/ecommerce-dashboard.jpg";
+import realtimeChat from "@/assets/projects/realtime-chat.jpg";
+import aiCodeAssistant from "@/assets/projects/ai-code-assistant.jpg";
+import cryptoTracker from "@/assets/projects/crypto-tracker.jpg";
+import taskManager from "@/assets/projects/task-manager.jpg";
+
 interface Project {
   pid: number;
   name: string;
@@ -20,24 +27,26 @@ interface Project {
 const projects: Project[] = [
   {
     pid: 1001,
-    name: "E-Commerce Platform",
+    name: "E-Commerce Dashboard",
     status: "completed",
     cpu: 12,
     memory: 256,
-    description: "A full-featured e-commerce platform with payment processing, inventory management, and analytics dashboard.",
-    tech: ["React", "Node.js", "PostgreSQL", "Stripe", "AWS"],
-    links: { github: "#", live: "#" },
+    description: "A comprehensive admin dashboard for e-commerce platforms with real-time analytics, inventory management, and sales tracking.",
+    tech: ["React", "Node.js", "PostgreSQL", "Stripe", "Recharts"],
+    links: { github: "https://github.com", live: "https://demo.com" },
+    image: ecommerceDashboard,
     featured: true,
   },
   {
     pid: 1002,
-    name: "AI Content Generator",
+    name: "AI Code Assistant",
     status: "running",
     cpu: 45,
     memory: 512,
-    description: "An AI-powered content generation tool using GPT models for blog posts, social media, and marketing copy.",
-    tech: ["Python", "FastAPI", "OpenAI", "React", "Redis"],
-    links: { github: "#", live: "#" },
+    description: "An intelligent VS Code extension that provides AI-powered code suggestions, refactoring, and documentation generation.",
+    tech: ["TypeScript", "OpenAI", "VS Code API", "React"],
+    links: { github: "https://github.com", live: "https://marketplace.visualstudio.com" },
+    image: aiCodeAssistant,
     featured: true,
   },
   {
@@ -46,40 +55,44 @@ const projects: Project[] = [
     status: "completed",
     cpu: 8,
     memory: 128,
-    description: "A real-time messaging application with WebSocket support, file sharing, and end-to-end encryption.",
-    tech: ["React", "Socket.io", "MongoDB", "Express"],
-    links: { github: "#" },
-  },
-  {
-    pid: 1004,
-    name: "DevOps Dashboard",
-    status: "running",
-    cpu: 22,
-    memory: 384,
-    description: "A comprehensive DevOps monitoring dashboard with CI/CD pipeline visualization and alerts.",
-    tech: ["Vue.js", "Go", "Kubernetes", "Prometheus"],
-    links: { github: "#", live: "#" },
+    description: "A full-featured messaging platform with WebSocket support, file sharing, emoji reactions, and end-to-end encryption.",
+    tech: ["React", "Socket.io", "MongoDB", "Express", "Redis"],
+    links: { github: "https://github.com" },
+    image: realtimeChat,
     featured: true,
   },
   {
+    pid: 1004,
+    name: "Crypto Portfolio Tracker",
+    status: "running",
+    cpu: 22,
+    memory: 384,
+    description: "Track cryptocurrency investments in real-time with price alerts, portfolio analytics, and DeFi protocol integration.",
+    tech: ["React", "Web3.js", "GraphQL", "CoinGecko API"],
+    links: { github: "https://github.com", live: "https://demo.com" },
+    image: cryptoTracker,
+  },
+  {
     pid: 1005,
-    name: "Mobile Banking App",
+    name: "Task Manager Pro",
     status: "completed",
     cpu: 5,
     memory: 96,
-    description: "A secure mobile banking application with biometric authentication and transaction history.",
-    tech: ["React Native", "GraphQL", "PostgreSQL"],
-    links: { live: "#" },
+    description: "A Kanban-style project management tool with drag-and-drop, team collaboration, time tracking, and integrations.",
+    tech: ["React", "TypeScript", "Prisma", "PostgreSQL"],
+    links: { live: "https://demo.com" },
+    image: taskManager,
+    featured: true,
   },
   {
     pid: 1006,
-    name: "Portfolio CMS",
+    name: "Developer Portfolio CMS",
     status: "pending",
     cpu: 0,
     memory: 0,
-    description: "A headless CMS designed specifically for developer portfolios with Markdown support.",
+    description: "A headless CMS specifically designed for developer portfolios with Markdown support and GitHub integration.",
     tech: ["Next.js", "Prisma", "MDX", "Tailwind"],
-    links: { github: "#" },
+    links: { github: "https://github.com" },
   },
 ];
 
@@ -108,7 +121,7 @@ const Projects = () => {
             </p>
             <h1 className="text-4xl font-bold mb-4">Projects</h1>
             <p className="text-muted-foreground max-w-2xl">
-              A collection of projects I've built, from full-stack applications to open-source tools.
+              A curated collection of full-stack applications, open-source tools, and production systems I've built.
             </p>
           </div>
 
@@ -162,6 +175,17 @@ const Projects = () => {
               >
                 {selectedProject ? (
                   <div className="space-y-4">
+                    {/* Project Image */}
+                    {selectedProject.image && (
+                      <div className="aspect-video rounded overflow-hidden border border-terminal-border">
+                        <img 
+                          src={selectedProject.image} 
+                          alt={selectedProject.name}
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                    )}
+
                     <div className="flex items-center gap-2">
                       <span className={cn(
                         "w-2 h-2 rounded-full",
@@ -209,16 +233,20 @@ const Projects = () => {
 
                     <div className="flex gap-2 pt-4">
                       {selectedProject.links.github && (
-                        <NeonButton variant="outline" size="sm" className="flex-1">
-                          <Github className="w-4 h-4 mr-1" />
-                          Code
-                        </NeonButton>
+                        <a href={selectedProject.links.github} target="_blank" rel="noopener noreferrer" className="flex-1">
+                          <NeonButton variant="outline" size="sm" className="w-full">
+                            <Github className="w-4 h-4 mr-1" />
+                            Code
+                          </NeonButton>
+                        </a>
                       )}
                       {selectedProject.links.live && (
-                        <NeonButton variant="green" size="sm" className="flex-1">
-                          <ExternalLink className="w-4 h-4 mr-1" />
-                          Live
-                        </NeonButton>
+                        <a href={selectedProject.links.live} target="_blank" rel="noopener noreferrer" className="flex-1">
+                          <NeonButton variant="green" size="sm" className="w-full">
+                            <ExternalLink className="w-4 h-4 mr-1" />
+                            Live
+                          </NeonButton>
+                        </a>
                       )}
                     </div>
                   </div>
@@ -256,8 +284,18 @@ const Projects = () => {
                     </div>
                   </div>
                   <div className="p-6">
-                    <div className="aspect-video bg-muted/30 rounded mb-4 flex items-center justify-center border border-terminal-border">
-                      <span className="font-mono text-xs text-muted-foreground">screenshot.png</span>
+                    <div className="aspect-video bg-muted/30 rounded mb-4 overflow-hidden border border-terminal-border">
+                      {project.image ? (
+                        <img 
+                          src={project.image} 
+                          alt={project.name}
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                        />
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center">
+                          <span className="font-mono text-xs text-muted-foreground">screenshot.png</span>
+                        </div>
+                      )}
                     </div>
                     <h3 className="font-bold mb-2 group-hover:text-neon-green transition-colors">
                       {project.name}
