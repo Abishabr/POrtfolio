@@ -271,16 +271,28 @@ const Projects = () => {
                   key={project.pid}
                   onClick={() => setSelectedProject(project)}
                   className={cn(
-                    "terminal-window cursor-pointer group",
+                    "bg-card border border-terminal-border rounded-sm cursor-pointer group overflow-hidden",
                     "hover:shadow-[0_0_30px_hsl(156_100%_50%_/_0.15)]",
                     "transition-all duration-300"
                   )}
                 >
-                  <div className="terminal-header">
+                  {/* Windows-style title bar */}
+                  <div className="flex items-center justify-between px-3 py-1.5 bg-muted/50 border-b border-terminal-border">
                     <div className="flex items-center gap-2">
-                      <div className="terminal-dot bg-status-error" />
-                      <div className="terminal-dot bg-status-warning" />
-                      <div className="terminal-dot bg-status-online" />
+                      <span className="font-mono text-xs text-muted-foreground truncate max-w-[180px]">
+                        {project.name.toLowerCase().replace(/\s+/g, '_')}.exe
+                      </span>
+                    </div>
+                    <div className="flex items-center">
+                      <div className="px-2 py-0.5 hover:bg-muted transition-colors">
+                        <span className="text-muted-foreground text-xs">─</span>
+                      </div>
+                      <div className="px-2 py-0.5 hover:bg-muted transition-colors">
+                        <span className="text-muted-foreground text-xs">□</span>
+                      </div>
+                      <div className="px-2 py-0.5 hover:bg-status-error/80 transition-colors group/close">
+                        <span className="text-muted-foreground group-hover/close:text-foreground text-xs">✕</span>
+                      </div>
                     </div>
                   </div>
                   <div className="p-6">
