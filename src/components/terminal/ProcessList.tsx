@@ -4,8 +4,6 @@ interface Process {
   pid: number;
   name: string;
   status: "running" | "stopped" | "completed" | "pending";
-  cpu?: number;
-  memory?: number;
   description?: string;
 }
 

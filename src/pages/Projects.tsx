@@ -15,8 +15,6 @@ interface Project {
   pid: number;
   name: string;
   status: "running" | "stopped" | "completed" | "pending";
-  cpu: number;
-  memory: number;
   description: string;
   tech: string[];
   links: { github?: string; live?: string };
@@ -29,8 +27,6 @@ const projects: Project[] = [
     pid: 1001,
     name: "E-Commerce Dashboard",
     status: "completed",
-    cpu: 12,
-    memory: 256,
     description: "A comprehensive admin dashboard for e-commerce platforms with real-time analytics, inventory management, and sales tracking.",
     tech: ["React", "Node.js", "PostgreSQL", "Stripe", "Recharts"],
     links: { github: "https://github.com", live: "https://demo.com" },
@@ -41,8 +37,6 @@ const projects: Project[] = [
     pid: 1002,
     name: "AI Code Assistant",
     status: "running",
-    cpu: 45,
-    memory: 512,
     description: "An intelligent VS Code extension that provides AI-powered code suggestions, refactoring, and documentation generation.",
     tech: ["TypeScript", "OpenAI", "VS Code API", "React"],
     links: { github: "https://github.com", live: "https://marketplace.visualstudio.com" },
@@ -53,8 +47,6 @@ const projects: Project[] = [
     pid: 1003,
     name: "Real-Time Chat App",
     status: "completed",
-    cpu: 8,
-    memory: 128,
     description: "A full-featured messaging platform with WebSocket support, file sharing, emoji reactions, and end-to-end encryption.",
     tech: ["React", "Socket.io", "MongoDB", "Express", "Redis"],
     links: { github: "https://github.com" },
@@ -65,8 +57,6 @@ const projects: Project[] = [
     pid: 1004,
     name: "Crypto Portfolio Tracker",
     status: "running",
-    cpu: 22,
-    memory: 384,
     description: "Track cryptocurrency investments in real-time with price alerts, portfolio analytics, and DeFi protocol integration.",
     tech: ["React", "Web3.js", "GraphQL", "CoinGecko API"],
     links: { github: "https://github.com", live: "https://demo.com" },
@@ -76,8 +66,6 @@ const projects: Project[] = [
     pid: 1005,
     name: "Task Manager Pro",
     status: "completed",
-    cpu: 5,
-    memory: 96,
     description: "A Kanban-style project management tool with drag-and-drop, team collaboration, time tracking, and integrations.",
     tech: ["React", "TypeScript", "Prisma", "PostgreSQL"],
     links: { live: "https://demo.com" },
@@ -88,8 +76,6 @@ const projects: Project[] = [
     pid: 1006,
     name: "Developer Portfolio CMS",
     status: "pending",
-    cpu: 0,
-    memory: 0,
     description: "A headless CMS specifically designed for developer portfolios with Markdown support and GitHub integration.",
     tech: ["Next.js", "Prisma", "MDX", "Tailwind"],
     links: { github: "https://github.com" },
@@ -220,16 +206,6 @@ const Projects = () => {
                       </div>
                     </div>
 
-                    <div className="pt-4 border-t border-terminal-border space-y-2">
-                      <div className="flex justify-between font-mono text-xs">
-                        <span className="text-muted-foreground">CPU Usage</span>
-                        <span className="neon-text-green">{selectedProject.cpu}%</span>
-                      </div>
-                      <div className="flex justify-between font-mono text-xs">
-                        <span className="text-muted-foreground">Memory</span>
-                        <span className="neon-text-cyan">{selectedProject.memory}MB</span>
-                      </div>
-                    </div>
 
                     <div className="flex gap-2 pt-4">
                       {selectedProject.links.github && (
