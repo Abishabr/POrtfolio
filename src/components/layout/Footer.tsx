@@ -21,9 +21,9 @@ export const Footer = () => {
             <Link to="/" className="flex items-center gap-2 group">
               <Terminal className="w-5 h-5 text-neon-green" />
               <span className="font-mono font-bold">
-                <span className="neon-text-green">dev</span>
+                <span className="neon-text-green">abrham</span>
                 <span className="text-muted-foreground">@</span>
-                <span className="neon-text-cyan">portfolio</span>
+                <span className="neon-text-cyan">habtamu</span>
               </span>
             </Link>
             <p className="font-mono text-sm text-muted-foreground">

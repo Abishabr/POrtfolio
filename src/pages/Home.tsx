@@ -117,7 +117,7 @@ const Home = () => {
               <TerminalWindow title="developer_info.sh" variant="floating">
                 <div className="space-y-3">
                   <div className="flex items-center gap-2">
-                    <span className="neon-text-green">guest@portfolio</span>
+                    <span className="neon-text-green">abrham@habtamu</span>
                     <span className="text-muted-foreground">:</span>
                     <span className="neon-text-cyan">~</span>
                     <span className="text-muted-foreground">$</span>
@@ -125,7 +125,7 @@ const Home = () => {
                   </div>
                   
                   <div className="pl-4 space-y-1 text-sm">
-                    <p><span className="text-neon-cyan">"name"</span>: <span className="text-foreground">"Alex Developer"</span>,</p>
+                    <p><span className="text-neon-cyan">"name"</span>: <span className="text-foreground">"Abrham Habtamu"</span>,</p>
                     <p><span className="text-neon-cyan">"role"</span>: <span className="text-foreground">"Full-Stack Developer"</span>,</p>
                     <p><span className="text-neon-cyan">"location"</span>: <span className="text-foreground">"Remote Worldwide"</span>,</p>
                     <p><span className="text-neon-cyan">"experience"</span>: <span className="text-neon-green">5</span>,</p>

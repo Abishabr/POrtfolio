@@ -22,7 +22,7 @@ const About = () => {
               <TerminalWindow title="biography.txt" variant="floating">
                 <div className="space-y-4">
                   <div className="flex items-center gap-2 text-sm">
-                    <span className="neon-text-green">guest@portfolio</span>
+                    <span className="neon-text-green">abrham@habtamu</span>
                     <span className="text-muted-foreground">$</span>
                     <TypingText text="cat biography.txt" speed={30} showCursor={false} />
                   </div>
