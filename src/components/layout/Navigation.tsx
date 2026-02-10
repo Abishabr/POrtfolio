@@ -24,9 +24,9 @@ export const Navigation = () => {
           <Link to="/" className="flex items-center gap-2 group">
             <Terminal className="w-6 h-6 text-neon-green group-hover:animate-pulse" />
             <span className="font-mono font-bold text-lg">
-              <span className="neon-text-green">dev</span>
+              <span className="neon-text-green">abrham</span>
               <span className="text-muted-foreground">@</span>
-              <span className="neon-text-cyan">portfolio</span>
+              <span className="neon-text-cyan">habtamu</span>
             </span>
           </Link>
 
