@@ -53,14 +53,8 @@ export const Navigation = () => {
             ))}
           </div>
 
-          {/* Admin Link */}
-          <div className="hidden md:flex items-center gap-4">
-            <Link to="/admin">
-              <NeonButton variant="outline" size="sm">
-                admin_panel
-              </NeonButton>
-            </Link>
-          </div>
+          {/* Spacer for layout balance */}
+          <div className="hidden md:flex items-center gap-4" />
 
           {/* Mobile Menu Button */}
           <button
@@ -98,15 +92,6 @@ export const Navigation = () => {
               {item.command}
             </Link>
           ))}
-          <Link
-            to="/admin"
-            onClick={() => setIsOpen(false)}
-            className="block mt-4"
-          >
-            <NeonButton variant="outline" size="sm" className="w-full">
-              admin_panel
-            </NeonButton>
-          </Link>
         </div>
       </div>
     </nav>
