@@ -142,8 +142,6 @@ const Skills = () => {
           </div>
         </div>
       </section>
-        </div>
-      </section>
     </MainLayout>
   );
 };
