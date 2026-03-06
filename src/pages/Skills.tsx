@@ -11,43 +11,28 @@ interface Skill {
 
 const skills: Skill[] = [
   // Frontend
-  { name: "React / Next.js", level: 95, category: "frontend" },
-  { name: "TypeScript", level: 90, category: "frontend" },
-  { name: "Vue.js", level: 75, category: "frontend" },
-  { name: "HTML5 / CSS3", level: 95, category: "frontend" },
-  { name: "Tailwind CSS", level: 90, category: "frontend" },
+  { name: "React", level: 80, category: "frontend" },
+  { name: "JavaScript", level: 85, category: "frontend" },
+  { name: "HTML5 / CSS3", level: 90, category: "frontend" },
   
   // Backend
-  { name: "Node.js", level: 92, category: "backend" },
-  { name: "Python", level: 85, category: "backend" },
-  { name: "Go", level: 70, category: "backend" },
-  { name: "GraphQL", level: 82, category: "backend" },
-  { name: "REST APIs", level: 95, category: "backend" },
+  { name: "Node.js", level: 78, category: "backend" },
+  { name: "Express", level: 75, category: "backend" },
+  { name: "REST APIs", level: 80, category: "backend" },
   
   // Database
-  { name: "PostgreSQL", level: 88, category: "database" },
-  { name: "MongoDB", level: 85, category: "database" },
-  { name: "Redis", level: 78, category: "database" },
-  { name: "Prisma ORM", level: 85, category: "database" },
-  
-  // DevOps
-  { name: "Docker", level: 85, category: "devops" },
-  { name: "AWS", level: 80, category: "devops" },
-  { name: "CI/CD", level: 82, category: "devops" },
-  { name: "Kubernetes", level: 65, category: "devops" },
+  { name: "PostgreSQL", level: 75, category: "database" },
+  { name: "MySQL", level: 75, category: "database" },
   
   // Tools
-  { name: "Git / GitHub", level: 95, category: "tools" },
-  { name: "Linux", level: 85, category: "tools" },
-  { name: "VS Code", level: 95, category: "tools" },
-  { name: "Figma", level: 70, category: "tools" },
+  { name: "Git / GitHub", level: 80, category: "tools" },
+  { name: "VS Code", level: 90, category: "tools" },
 ];
 
 const categories = [
   { id: "frontend", name: "Frontend", color: "neon-green", icon: "💻" },
   { id: "backend", name: "Backend", color: "neon-cyan", icon: "⚙️" },
   { id: "database", name: "Database", color: "neon-purple", icon: "🗄️" },
-  { id: "devops", name: "DevOps", color: "neon-pink", icon: "🚀" },
   { id: "tools", name: "Tools", color: "neon-green", icon: "🔧" },
 ];
 
@@ -70,10 +55,10 @@ const Skills = () => {
           {/* System Stats Overview */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
             {[
-              { label: "CPU (Languages)", value: "8 Cores", usage: 85 },
-              { label: "RAM (Frameworks)", value: "32GB", usage: 78 },
-              { label: "DISK (Projects)", value: "50+ TB", usage: 65 },
-              { label: "NETWORK (APIs)", value: "1Gbps", usage: 92 },
+              { label: "Languages", value: "JavaScript", usage: 85 },
+              { label: "Frameworks", value: "React + Express", usage: 78 },
+              { label: "Databases", value: "MySQL + PG", usage: 75 },
+              { label: "Tools", value: "Git + VS Code", usage: 80 },
             ].map((stat) => (
               <div
                 key={stat.label}
@@ -135,9 +120,9 @@ const Skills = () => {
             <TerminalWindow title="tech_stack.config" variant="floating">
               <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-3">
                 {[
-                  "React", "Next.js", "TypeScript", "Node.js", "Python", "Go",
-                  "PostgreSQL", "MongoDB", "Redis", "GraphQL", "Docker", "AWS",
-                  "Kubernetes", "Git", "Linux", "Tailwind", "Prisma", "Jest",
+                  "JavaScript", "React", "Node.js", "Express",
+                  "HTML5", "CSS3", "MySQL", "PostgreSQL",
+                  "Git", "GitHub", "VS Code", "REST APIs",
                 ].map((tech) => (
                   <div
                     key={tech}
@@ -154,38 +139,6 @@ const Skills = () => {
                 ))}
               </div>
             </TerminalWindow>
-          </div>
-
-          {/* Certifications */}
-          <div className="mt-16">
-            <p className="font-mono text-sm neon-text-cyan mb-6">
-              <span className="text-muted-foreground">$</span> ls certificates/
-            </p>
-
-            <div className="grid md:grid-cols-3 gap-6">
-              {[
-                { name: "AWS Solutions Architect", issuer: "Amazon Web Services", year: "2024" },
-                { name: "Professional Cloud Developer", issuer: "Google Cloud", year: "2023" },
-                { name: "Meta Frontend Developer", issuer: "Meta", year: "2023" },
-              ].map((cert) => (
-                <div
-                  key={cert.name}
-                  className={cn(
-                    "p-6 rounded-lg border border-terminal-border",
-                    "bg-card/50 backdrop-blur-sm",
-                    "hover:border-neon-green/50 transition-all duration-300",
-                    "hover:shadow-[0_0_20px_hsl(156_100%_50%_/_0.1)]"
-                  )}
-                >
-                  <div className="w-12 h-12 rounded-full bg-neon-green/10 border border-neon-green/30 flex items-center justify-center mb-4">
-                    <span className="text-xl">🏆</span>
-                  </div>
-                  <h3 className="font-bold mb-1">{cert.name}</h3>
-                  <p className="text-sm text-muted-foreground">{cert.issuer}</p>
-                  <p className="font-mono text-xs text-neon-green mt-2">{cert.year}</p>
-                </div>
-              ))}
-            </div>
           </div>
         </div>
       </section>
