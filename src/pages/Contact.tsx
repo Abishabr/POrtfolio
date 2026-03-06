@@ -53,14 +53,14 @@ const Contact = () => {
         "  location - Show location",
         "  clear    - Clear terminal",
       ],
-      email: ["Email: hello@alexdev.io"],
+      email: ["Email: abrhamhabtamu52@gmail.com"],
       social: [
         "Social Links:",
-        "  GitHub:   github.com/alexdev",
-        "  LinkedIn: linkedin.com/in/alexdev",
-        "  Twitter:  @alexdev_io",
+        "  GitHub:   github.com/Abishabr",
+        "  LinkedIn: linkedin.com/in/abrham-habtamu-24a329310",
+        "  Telegram: @barch",
       ],
-      location: ["Location: Remote Worldwide", "Timezone: Flexible (UTC-8 to UTC+2)"],
+      location: ["Location: Ethiopia", "University: Haramaya University"],
       clear: [],
     };
 
@@ -195,10 +195,10 @@ const Contact = () => {
               {/* Contact Info Cards */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {[
-                  { icon: Mail, label: "Email", value: "hello@alexdev.io", href: "mailto:hello@alexdev.io" },
-                  { icon: MapPin, label: "Location", value: "Remote Worldwide" },
-                  { icon: Phone, label: "Availability", value: "Flexible Hours" },
-                  { icon: Github, label: "GitHub", value: "@alexdev", href: "https://github.com" },
+                  { icon: Mail, label: "Email", value: "abrhamhabtamu52@gmail.com", href: "mailto:abrhamhabtamu52@gmail.com" },
+                  { icon: MapPin, label: "Location", value: "Ethiopia" },
+                  { icon: Phone, label: "Phone", value: "+251 922 111 347", href: "tel:+251922111347" },
+                  { icon: Github, label: "GitHub", value: "@Abishabr", href: "https://github.com/Abishabr" },
                 ].map((item) => (
                   <a
                     key={item.label}
@@ -249,10 +249,9 @@ const Contact = () => {
                 <p className="font-mono text-sm neon-text-cyan mb-4">// Connect with me</p>
                 <div className="flex gap-3">
                   {[
-                    { icon: Github, href: "#", label: "GitHub" },
-                    { icon: Linkedin, href: "#", label: "LinkedIn" },
-                    { icon: Twitter, href: "#", label: "Twitter" },
-                    { icon: Mail, href: "#", label: "Email" },
+                    { icon: Github, href: "https://github.com/Abishabr", label: "GitHub" },
+                    { icon: Linkedin, href: "https://www.linkedin.com/in/abrham-habtamu-24a329310/", label: "LinkedIn" },
+                    { icon: Mail, href: "mailto:abrhamhabtamu52@gmail.com", label: "Email" },
                   ].map((social) => (
                     <a
                       key={social.label}

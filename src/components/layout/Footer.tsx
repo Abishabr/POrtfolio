@@ -3,10 +3,9 @@ import { Link } from "react-router-dom";
 import { cn } from "@/lib/utils";
 
 const socialLinks = [
-  { icon: Github, href: "#", label: "GitHub" },
-  { icon: Linkedin, href: "#", label: "LinkedIn" },
-  { icon: Twitter, href: "#", label: "Twitter" },
-  { icon: Mail, href: "#", label: "Email" },
+  { icon: Github, href: "https://github.com/Abishabr", label: "GitHub" },
+  { icon: Linkedin, href: "https://www.linkedin.com/in/abrham-habtamu-24a329310/", label: "LinkedIn" },
+  { icon: Mail, href: "mailto:abrhamhabtamu52@gmail.com", label: "Email" },
 ];
 
 export const Footer = () => {

@@ -67,7 +67,7 @@ const Home = () => {
               {/* Status Badge */}
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-neon-green/30 bg-neon-green/5">
                 <span className="w-2 h-2 bg-status-online rounded-full animate-pulse" />
-                <span className="font-mono text-xs text-neon-green">Available for hire • Remote Worldwide</span>
+                <span className="font-mono text-xs text-neon-green">IT Student • Haramaya University</span>
               </div>
 
               {/* Heading */}
@@ -78,11 +78,11 @@ const Home = () => {
                   </span>
                   <span className="text-gradient-neon">Full-Stack</span>
                   <br />
-                  <span className="text-foreground">Developer</span>
+                  <span className="text-foreground">Web Developer</span>
                 </h1>
                 <p className="text-lg text-muted-foreground max-w-lg font-mono">
-                  Crafting scalable web applications with clean architecture, 
-                  modern frameworks, and a passion for exceptional user experiences.
+                  IT student at Haramaya University building modern web applications 
+                  with JavaScript, React, Node.js, and PostgreSQL.
                 </p>
               </div>
 
@@ -94,19 +94,21 @@ const Home = () => {
                     <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
                   </NeonButton>
                 </Link>
-                <NeonButton variant="outline" size="lg">
-                  <Download className="w-4 h-4 mr-2" />
-                  Download CV
-                </NeonButton>
+                <Link to="/cv">
+                  <NeonButton variant="outline" size="lg">
+                    <Download className="w-4 h-4 mr-2" />
+                    Download CV
+                  </NeonButton>
+                </Link>
               </div>
 
               {/* Social Links */}
               <div className="flex items-center gap-4 pt-4">
                 <span className="font-mono text-sm text-muted-foreground">Connect:</span>
-                <a href="https://github.com" target="_blank" rel="noopener noreferrer" className="p-2 hover:text-neon-green transition-colors">
+                <a href="https://github.com/Abishabr" target="_blank" rel="noopener noreferrer" className="p-2 hover:text-neon-green transition-colors">
                   <Github className="w-5 h-5" />
                 </a>
-                <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="p-2 hover:text-neon-cyan transition-colors">
+                <a href="https://www.linkedin.com/in/abrham-habtamu-24a329310/" target="_blank" rel="noopener noreferrer" className="p-2 hover:text-neon-cyan transition-colors">
                   <Linkedin className="w-5 h-5" />
                 </a>
               </div>
@@ -126,16 +128,16 @@ const Home = () => {
                   
                   <div className="pl-4 space-y-1 text-sm">
                     <p><span className="text-neon-cyan">"name"</span>: <span className="text-foreground">"Abrham Habtamu"</span>,</p>
-                    <p><span className="text-neon-cyan">"role"</span>: <span className="text-foreground">"Full-Stack Developer"</span>,</p>
-                    <p><span className="text-neon-cyan">"location"</span>: <span className="text-foreground">"Remote Worldwide"</span>,</p>
-                    <p><span className="text-neon-cyan">"experience"</span>: <span className="text-neon-green">5</span>,</p>
+                    <p><span className="text-neon-cyan">"role"</span>: <span className="text-foreground">"Full-Stack Web Developer"</span>,</p>
+                    <p><span className="text-neon-cyan">"location"</span>: <span className="text-foreground">"Ethiopia"</span>,</p>
+                    <p><span className="text-neon-cyan">"education"</span>: <span className="text-foreground">"IT @ Haramaya University"</span>,</p>
                     <p><span className="text-neon-cyan">"specialties"</span>: [</p>
-                    <p className="pl-4"><span className="text-foreground">"React", "Node.js", "TypeScript",</span></p>
-                    <p className="pl-4"><span className="text-foreground">"Python", "PostgreSQL", "AWS"</span></p>
+                    <p className="pl-4"><span className="text-foreground">"JavaScript", "React", "Node.js",</span></p>
+                    <p className="pl-4"><span className="text-foreground">"Express", "MySQL", "PostgreSQL"</span></p>
                     <p>],</p>
                     <p><span className="text-neon-cyan">"passions"</span>: [</p>
-                    <p className="pl-4"><span className="text-foreground">"Clean Code", "System Design",</span></p>
-                    <p className="pl-4"><span className="text-foreground">"Open Source", "Mentoring"</span></p>
+                    <p className="pl-4"><span className="text-foreground">"Clean Code", "Web Development",</span></p>
+                    <p className="pl-4"><span className="text-foreground">"Open Source", "Learning"</span></p>
                     <p>],</p>
                     <p><span className="text-neon-cyan">"status"</span>: <span className="text-status-online">"online"</span></p>
                   </div>
@@ -164,10 +166,10 @@ const Home = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {[
-              { label: "Years Experience", value: "5+" },
-              { label: "Projects Shipped", value: "50+" },
-              { label: "Technologies", value: "20+" },
-              { label: "Happy Clients", value: "30+" },
+              { label: "Year", value: "3rd" },
+              { label: "Technologies", value: "6+" },
+              { label: "Focus", value: "Full-Stack" },
+              { label: "Status", value: "Learning" },
             ].map((stat) => (
               <div
                 key={stat.label}
