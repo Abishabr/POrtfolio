@@ -140,39 +140,8 @@ const Skills = () => {
               </div>
             </TerminalWindow>
           </div>
-
-          {/* Certifications */}
-          <div className="mt-16">
-            <p className="font-mono text-sm neon-text-cyan mb-6">
-              <span className="text-muted-foreground">$</span> ls certificates/
-            </p>
-
-            <div className="grid md:grid-cols-3 gap-6">
-              {/* Certifications section - will be added when available */}
-              <div className="p-6 rounded-lg border border-terminal-border bg-card/50 text-center">
-                <p className="font-mono text-sm text-muted-foreground">
-                  <span className="neon-text-cyan">// </span>Certifications coming soon...
-                </p>
-              </div>
-                <div
-                  key={cert.name}
-                  className={cn(
-                    "p-6 rounded-lg border border-terminal-border",
-                    "bg-card/50 backdrop-blur-sm",
-                    "hover:border-neon-green/50 transition-all duration-300",
-                    "hover:shadow-[0_0_20px_hsl(156_100%_50%_/_0.1)]"
-                  )}
-                >
-                  <div className="w-12 h-12 rounded-full bg-neon-green/10 border border-neon-green/30 flex items-center justify-center mb-4">
-                    <span className="text-xl">🏆</span>
-                  </div>
-                  <h3 className="font-bold mb-1">{cert.name}</h3>
-                  <p className="text-sm text-muted-foreground">{cert.issuer}</p>
-                  <p className="font-mono text-xs text-neon-green mt-2">{cert.year}</p>
-                </div>
-              ))}
-            </div>
-          </div>
+        </div>
+      </section>
         </div>
       </section>
     </MainLayout>
