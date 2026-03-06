@@ -29,24 +29,23 @@ const About = () => {
 
                   <div className="space-y-4 text-sm leading-relaxed">
                     <p>
-                      Hello! I'm a passionate full-stack developer with 5+ years of 
-                      experience building production-ready web applications for startups 
-                      and enterprises worldwide.
+                      Hello! I'm Abrham Habtamu, a passionate full-stack web developer 
+                      and 3rd year IT student at Haramaya University, Ethiopia.
                     </p>
                     <p>
-                      I specialize in React ecosystems, Node.js backends, and cloud-native 
-                      architectures. My focus is on creating performant, accessible, and 
-                      maintainable codebases that scale with your business needs.
+                      I specialize in JavaScript ecosystems including React for frontend 
+                      and Node.js with Express for backend development. I work with both 
+                      MySQL and PostgreSQL databases to build complete web applications.
                     </p>
                     <p>
-                      As a remote-first developer, I've collaborated with distributed teams 
-                      across different time zones, delivering projects ranging from MVP 
-                      prototypes to high-traffic production systems serving millions of users.
+                      As a student developer, I'm constantly learning and building projects 
+                      to sharpen my skills. I'm passionate about writing clean, efficient 
+                      code and creating user-friendly web experiences.
                     </p>
                     <p>
-                      I'm passionate about clean architecture, developer experience, and 
-                      mentoring junior developers. When not coding, I contribute to open-source 
-                      projects and write technical content on modern web development practices.
+                      I'm actively looking for internships and collaboration opportunities 
+                      to grow as a developer. When not coding, I explore new technologies 
+                      and contribute to the developer community.
                     </p>
                   </div>
 
@@ -61,10 +60,10 @@ const About = () => {
               {/* Personal Info Cards */}
               <div className="grid grid-cols-2 gap-4">
                 {[
-                  { icon: MapPin, label: "Location", value: "Remote Worldwide" },
-                  { icon: Calendar, label: "Experience", value: "5+ Years" },
-                  { icon: Award, label: "Projects", value: "50+ Shipped" },
-                  { icon: Coffee, label: "Timezone", value: "Flexible" },
+                  { icon: MapPin, label: "Location", value: "Ethiopia" },
+                  { icon: Calendar, label: "Education", value: "3rd Year IT" },
+                  { icon: Award, label: "University", value: "Haramaya" },
+                  { icon: Coffee, label: "Status", value: "Learning" },
                 ].map((item) => (
                   <div
                     key={item.label}
@@ -90,10 +89,9 @@ const About = () => {
                   <p className="neon-text-cyan">--- CAREER TIMELINE ---</p>
                   
                   {[
-                    { year: "2024", role: "Senior Full-Stack Developer", company: "Tech Corp", current: true },
-                    { year: "2022", role: "Full-Stack Developer", company: "StartupXYZ" },
-                    { year: "2020", role: "Frontend Developer", company: "WebAgency" },
-                    { year: "2019", role: "Junior Developer", company: "CodeSchool" },
+                    { year: "2023-Now", role: "IT Student (3rd Year)", company: "Haramaya University", current: true },
+                    { year: "2023", role: "Self-taught Web Developer", company: "Online Courses" },
+                    { year: "2022", role: "Started Programming", company: "JavaScript & Web" },
                   ].map((job, index) => (
                     <div key={index} className="flex gap-4 py-2 border-l-2 border-terminal-border pl-4 relative">
                       <div className={cn(
