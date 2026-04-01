@@ -2,6 +2,7 @@ import { MainLayout } from "@/components/layout";
 import { TerminalWindow, TypingText, StatusBar } from "@/components/terminal";
 import { MapPin, Calendar, Award, Code2, Coffee, Zap } from "lucide-react";
 import { cn } from "@/lib/utils";
+import profileAvatar from "@/assets/profile-avatar.png";
 
 const About = () => {
   return (
@@ -9,11 +10,16 @@ const About = () => {
       <section className="py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Header */}
-          <div className="mb-12">
-            <p className="font-mono text-sm neon-text-cyan mb-2">
-              <span className="text-muted-foreground">$</span> cat about.md
-            </p>
-            <h1 className="text-4xl font-bold">About Me</h1>
+          <div className="mb-12 flex items-center gap-6">
+            <div className="w-24 h-24 rounded-full border-2 border-neon-green/50 overflow-hidden shadow-[0_0_30px_hsl(156_100%_50%_/_0.2)]">
+              <img src={profileAvatar} alt="Abrham Habtamu" width={512} height={512} loading="lazy" className="w-full h-full object-cover" />
+            </div>
+            <div>
+              <p className="font-mono text-sm neon-text-cyan mb-2">
+                <span className="text-muted-foreground">$</span> cat about.md
+              </p>
+              <h1 className="text-4xl font-bold">About Me</h1>
+            </div>
           </div>
 
           <div className="grid lg:grid-cols-2 gap-12">

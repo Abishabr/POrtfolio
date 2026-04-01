@@ -10,6 +10,7 @@ import { cn } from "@/lib/utils";
 import ecommerceDashboard from "@/assets/projects/ecommerce-dashboard.jpg";
 import realtimeChat from "@/assets/projects/realtime-chat.jpg";
 import cryptoTracker from "@/assets/projects/crypto-tracker.jpg";
+import profileAvatar from "@/assets/profile-avatar.png";
 
 const Home = () => {
   const [showBoot, setShowBoot] = useState(true);
@@ -64,10 +65,15 @@ const Home = () => {
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             {/* Left Content */}
             <div className={cn("space-y-8", showContent && "animate-slide-up")}>
-              {/* Status Badge */}
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-neon-green/30 bg-neon-green/5">
-                <span className="w-2 h-2 bg-status-online rounded-full animate-pulse" />
-                <span className="font-mono text-xs text-neon-green">IT Student • Haramaya University</span>
+              {/* Avatar + Status Badge */}
+              <div className="flex items-center gap-4">
+                <div className="w-16 h-16 rounded-full border-2 border-neon-green/50 overflow-hidden shadow-[0_0_20px_hsl(156_100%_50%_/_0.2)]">
+                  <img src={profileAvatar} alt="Abrham Habtamu" width={512} height={512} className="w-full h-full object-cover" />
+                </div>
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-neon-green/30 bg-neon-green/5">
+                  <span className="w-2 h-2 bg-status-online rounded-full animate-pulse" />
+                  <span className="font-mono text-xs text-neon-green">IT Student • Haramaya University</span>
+                </div>
               </div>
 
               {/* Heading */}
