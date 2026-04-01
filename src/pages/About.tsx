@@ -95,9 +95,10 @@ const About = () => {
                   <p className="neon-text-cyan">--- CAREER TIMELINE ---</p>
                   
                   {[
-                    { year: "2023-Now", role: "IT Student (3rd Year)", company: "Haramaya University", current: true },
-                    { year: "2023", role: "Self-taught Web Developer", company: "Online Courses" },
-                    { year: "2022", role: "Started Programming", company: "JavaScript & Web" },
+                    { year: "2024-Now", role: "Frontend Developer", company: "Freelance / Personal Projects", current: true },
+                    { year: "2024", role: "Full-Stack Developer", company: "React, Node.js, Express" },
+                    { year: "2023", role: "Started Programming", company: "JavaScript & Web Development" },
+                    { year: "2022", role: "Freshman IT Student", company: "Haramaya University" },
                   ].map((job, index) => (
                     <div key={index} className="flex gap-4 py-2 border-l-2 border-terminal-border pl-4 relative">
                       <div className={cn(
