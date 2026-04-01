@@ -10,6 +10,7 @@ import { cn } from "@/lib/utils";
 import ecommerceDashboard from "@/assets/projects/ecommerce-dashboard.jpg";
 import realtimeChat from "@/assets/projects/realtime-chat.jpg";
 import cryptoTracker from "@/assets/projects/crypto-tracker.jpg";
+import profileAvatar from "@/assets/profile-avatar.png";
 
 const Home = () => {
   const [showBoot, setShowBoot] = useState(true);
