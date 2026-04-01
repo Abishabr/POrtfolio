@@ -89,31 +89,6 @@ const About = () => {
 
             {/* Right Column */}
             <div className="space-y-6">
-              {/* Timeline */}
-              <TerminalWindow title="career_timeline.log">
-                <div className="space-y-2 text-sm">
-                  <p className="neon-text-cyan">--- CAREER TIMELINE ---</p>
-                  
-                  {[
-                    { year: "2024-Now", role: "Frontend Developer", company: "Freelance / Personal Projects", current: true },
-                    { year: "2024", role: "Full-Stack Developer", company: "React, Node.js, Express" },
-                    { year: "2023", role: "Started Programming", company: "JavaScript & Web Development" },
-                    { year: "2022", role: "Freshman IT Student", company: "Haramaya University" },
-                  ].map((job, index) => (
-                    <div key={index} className="flex gap-4 py-2 border-l-2 border-terminal-border pl-4 relative">
-                      <div className={cn(
-                        "absolute left-0 top-1/2 -translate-x-1/2 -translate-y-1/2 w-3 h-3 rounded-full",
-                        job.current ? "bg-status-online animate-pulse" : "bg-muted"
-                      )} />
-                      <div className="flex-1">
-                        <p className="font-mono text-neon-green">{job.year}</p>
-                        <p className="font-medium">{job.role}</p>
-                        <p className="text-muted-foreground text-xs">@ {job.company}</p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </TerminalWindow>
 
               {/* Core Values */}
               <TerminalWindow title="core_values.config">
