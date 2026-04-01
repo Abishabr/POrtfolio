@@ -2,6 +2,7 @@ import { MainLayout } from "@/components/layout";
 import { TerminalWindow, TypingText, StatusBar } from "@/components/terminal";
 import { MapPin, Calendar, Award, Code2, Coffee, Zap } from "lucide-react";
 import { cn } from "@/lib/utils";
+import profileAvatar from "@/assets/profile-avatar.png";
 
 const About = () => {
   return (
