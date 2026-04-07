@@ -5,6 +5,7 @@ import { MainLayout } from "@/components/layout";
 import { BootScreen } from "@/components/sections/BootScreen";
 import { TerminalWindow, TypingText, NeonButton, StatusBar } from "@/components/terminal";
 import { cn } from "@/lib/utils";
+import { ScrollReveal } from "@/hooks/use-scroll-reveal";
 
 // Import project images
 import ecommerceDashboard from "@/assets/projects/ecommerce-dashboard.jpg";
@@ -176,19 +177,20 @@ const Home = () => {
               { label: "Technologies", value: "6+" },
               { label: "Focus", value: "Full-Stack" },
               { label: "Status", value: "Learning" },
-            ].map((stat) => (
-              <div
-                key={stat.label}
-                className={cn(
-                  "text-center p-6 rounded-lg border border-terminal-border",
-                  "bg-card/50 backdrop-blur-sm",
-                  "hover:border-neon-green/50 transition-all duration-300",
-                  "hover:shadow-[0_0_20px_hsl(156_100%_50%_/_0.1)]"
-                )}
-              >
-                <p className="text-3xl font-bold neon-text-green mb-2">{stat.value}</p>
-                <p className="font-mono text-sm text-muted-foreground">{stat.label}</p>
-              </div>
+            ].map((stat, index) => (
+              <ScrollReveal key={stat.label} delay={index * 100}>
+                <div
+                  className={cn(
+                    "text-center p-6 rounded-lg border border-terminal-border",
+                    "bg-card/50 backdrop-blur-sm",
+                    "hover:border-neon-green/50 transition-all duration-300",
+                    "hover:shadow-[0_0_20px_hsl(156_100%_50%_/_0.1)]"
+                  )}
+                >
+                  <p className="text-3xl font-bold neon-text-green mb-2">{stat.value}</p>
+                  <p className="font-mono text-sm text-muted-foreground">{stat.label}</p>
+                </div>
+              </ScrollReveal>
             ))}
           </div>
         </div>
@@ -197,69 +199,72 @@ const Home = () => {
       {/* Featured Projects Preview */}
       <section className="py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center mb-12">
-            <div>
-              <p className="font-mono text-sm neon-text-cyan mb-2">
-                <span className="text-muted-foreground">$</span> ls projects/ --featured
-              </p>
-              <h2 className="text-3xl font-bold">Featured Projects</h2>
+          <ScrollReveal>
+            <div className="flex justify-between items-center mb-12">
+              <div>
+                <p className="font-mono text-sm neon-text-cyan mb-2">
+                  <span className="text-muted-foreground">$</span> ls projects/ --featured
+                </p>
+                <h2 className="text-3xl font-bold">Featured Projects</h2>
+              </div>
+              <Link to="/projects">
+                <NeonButton variant="ghost" size="sm">
+                  View All <ExternalLink className="w-4 h-4 ml-1" />
+                </NeonButton>
+              </Link>
             </div>
-            <Link to="/projects">
-              <NeonButton variant="ghost" size="sm">
-                View All <ExternalLink className="w-4 h-4 ml-1" />
-              </NeonButton>
-            </Link>
-          </div>
+          </ScrollReveal>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {featuredProjects.map((project, index) => (
-              <div
-                key={project.name}
-                className={cn(
-                  "terminal-window group cursor-pointer",
-                  "hover:shadow-[0_0_30px_hsl(156_100%_50%_/_0.15)]",
-                  "transition-all duration-300"
-                )}
-              >
-                <div className="terminal-header">
-                  <div className="flex items-center gap-2">
-                    <div className="terminal-dot bg-status-error" />
-                    <div className="terminal-dot bg-status-warning" />
-                    <div className="terminal-dot bg-status-online" />
+              <ScrollReveal key={project.name} delay={index * 150}>
+                <div
+                  className={cn(
+                    "terminal-window group cursor-pointer",
+                    "hover:shadow-[0_0_30px_hsl(156_100%_50%_/_0.15)]",
+                    "transition-all duration-300"
+                  )}
+                >
+                  <div className="terminal-header">
+                    <div className="flex items-center gap-2">
+                      <div className="terminal-dot bg-status-error" />
+                      <div className="terminal-dot bg-status-warning" />
+                      <div className="terminal-dot bg-status-online" />
+                    </div>
+                    <span className="ml-4 font-mono text-xs text-muted-foreground truncate">
+                      project_{index + 1}.exe
+                    </span>
                   </div>
-                  <span className="ml-4 font-mono text-xs text-muted-foreground truncate">
-                    project_{index + 1}.exe
-                  </span>
-                </div>
-                <div className="p-6 space-y-4">
-                  <div className="aspect-video bg-muted/30 rounded overflow-hidden border border-terminal-border">
-                    <img 
-                      src={project.image} 
-                      alt={project.name}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                    />
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-lg group-hover:text-neon-green transition-colors">
-                      {project.name}
-                    </h3>
-                    <div className="flex flex-wrap gap-2 mt-2">
-                      {project.tech.map((t) => (
-                        <span key={t} className="px-2 py-1 text-xs font-mono bg-muted rounded">
-                          {t}
-                        </span>
-                      ))}
+                  <div className="p-6 space-y-4">
+                    <div className="aspect-video bg-muted/30 rounded overflow-hidden border border-terminal-border">
+                      <img 
+                        src={project.image} 
+                        alt={project.name}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      />
+                    </div>
+                    <div>
+                      <h3 className="font-semibold text-lg group-hover:text-neon-green transition-colors">
+                        {project.name}
+                      </h3>
+                      <div className="flex flex-wrap gap-2 mt-2">
+                        {project.tech.map((t) => (
+                          <span key={t} className="px-2 py-1 text-xs font-mono bg-muted rounded">
+                            {t}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-2 text-sm">
+                      <span className={cn(
+                        "w-2 h-2 rounded-full",
+                        project.status === "running" ? "bg-status-online animate-pulse" : "bg-neon-cyan"
+                      )} />
+                      <span className="font-mono text-muted-foreground">{project.status}</span>
                     </div>
                   </div>
-                  <div className="flex items-center gap-2 text-sm">
-                    <span className={cn(
-                      "w-2 h-2 rounded-full",
-                      project.status === "running" ? "bg-status-online animate-pulse" : "bg-neon-cyan"
-                    )} />
-                    <span className="font-mono text-muted-foreground">{project.status}</span>
-                  </div>
                 </div>
-              </div>
+              </ScrollReveal>
             ))}
           </div>
         </div>
