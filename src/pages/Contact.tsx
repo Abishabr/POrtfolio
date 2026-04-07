@@ -1,6 +1,7 @@
 import { useState, FormEvent } from "react";
 import { MainLayout } from "@/components/layout";
 import { TerminalWindow, CommandLine, NeonButton } from "@/components/terminal";
+import { ScrollReveal } from "@/hooks/use-scroll-reveal";
 import { Send, Mail, MapPin, Phone, Github, Linkedin, Twitter } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
@@ -81,19 +82,21 @@ const Contact = () => {
       <section className="py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Header */}
-          <div className="mb-12">
-            <p className="font-mono text-sm neon-text-cyan mb-2">
-              <span className="text-muted-foreground">$</span> mail -s "Hello"
-            </p>
-            <h1 className="text-4xl font-bold mb-4">Get In Touch</h1>
-            <p className="text-muted-foreground max-w-2xl">
-              Have a project in mind? Let's collaborate and build something amazing together.
-            </p>
-          </div>
+          <ScrollReveal>
+            <div className="mb-12">
+              <p className="font-mono text-sm neon-text-cyan mb-2">
+                <span className="text-muted-foreground">$</span> mail -s "Hello"
+              </p>
+              <h1 className="text-4xl font-bold mb-4">Get In Touch</h1>
+              <p className="text-muted-foreground max-w-2xl">
+                Have a project in mind? Let's collaborate and build something amazing together.
+              </p>
+            </div>
+          </ScrollReveal>
 
           <div className="grid lg:grid-cols-2 gap-12">
             {/* Contact Form */}
-            <div>
+            <ScrollReveal delay={100}>
               <TerminalWindow title="compose_message.sh" variant="floating">
                 <form onSubmit={handleSubmit} className="space-y-4">
                   <div className="space-y-2">
@@ -188,10 +191,10 @@ const Contact = () => {
                   </NeonButton>
                 </form>
               </TerminalWindow>
-            </div>
+            </ScrollReveal>
 
             {/* Contact Info & Terminal */}
-            <div className="space-y-6">
+            <ScrollReveal delay={200} className="space-y-6">
               {/* Contact Info Cards */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {[
@@ -269,7 +272,7 @@ const Contact = () => {
                   ))}
                 </div>
               </div>
-            </div>
+            </ScrollReveal>
           </div>
         </div>
       </section>

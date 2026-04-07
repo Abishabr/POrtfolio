@@ -1,5 +1,6 @@
 import { MainLayout } from "@/components/layout";
 import { TerminalWindow, StatusBar } from "@/components/terminal";
+import { ScrollReveal } from "@/hooks/use-scroll-reveal";
 import { cn } from "@/lib/utils";
 
 interface Skill {
@@ -42,46 +43,51 @@ const Skills = () => {
       <section className="py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Header */}
-          <div className="mb-12">
-            <p className="font-mono text-sm neon-text-cyan mb-2">
-              <span className="text-muted-foreground">$</span> top -o %CPU
-            </p>
-            <h1 className="text-4xl font-bold mb-4">Technical Skills</h1>
-            <p className="text-muted-foreground max-w-2xl">
-              A comprehensive overview of my technical capabilities, displayed as system resource metrics.
-            </p>
-          </div>
+          <ScrollReveal>
+            <div className="mb-12">
+              <p className="font-mono text-sm neon-text-cyan mb-2">
+                <span className="text-muted-foreground">$</span> top -o %CPU
+              </p>
+              <h1 className="text-4xl font-bold mb-4">Technical Skills</h1>
+              <p className="text-muted-foreground max-w-2xl">
+                A comprehensive overview of my technical capabilities, displayed as system resource metrics.
+              </p>
+            </div>
+          </ScrollReveal>
 
           {/* System Stats Overview */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
-            {[
-              { label: "Languages", value: "JavaScript", usage: 85 },
-              { label: "Frameworks", value: "React + Express", usage: 78 },
-              { label: "Databases", value: "MySQL + PG", usage: 75 },
-              { label: "Tools", value: "Git + VS Code", usage: 80 },
-            ].map((stat) => (
-              <div
-                key={stat.label}
-                className="p-4 rounded-lg border border-terminal-border bg-card/50"
-              >
-                <div className="flex justify-between items-center mb-2">
-                  <span className="font-mono text-xs text-muted-foreground">{stat.label}</span>
-                  <span className="font-mono text-xs neon-text-green">{stat.usage}%</span>
+          <ScrollReveal delay={100}>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
+              {[
+                { label: "Languages", value: "JavaScript", usage: 85 },
+                { label: "Frameworks", value: "React + Express", usage: 78 },
+                { label: "Databases", value: "MySQL + PG", usage: 75 },
+                { label: "Tools", value: "Git + VS Code", usage: 80 },
+              ].map((stat) => (
+                <div
+                  key={stat.label}
+                  className="p-4 rounded-lg border border-terminal-border bg-card/50"
+                >
+                  <div className="flex justify-between items-center mb-2">
+                    <span className="font-mono text-xs text-muted-foreground">{stat.label}</span>
+                    <span className="font-mono text-xs neon-text-green">{stat.usage}%</span>
+                  </div>
+                  <p className="font-bold text-lg mb-2">{stat.value}</p>
+                  <div className="h-1 bg-muted rounded-full overflow-hidden">
+                    <div
+                      className="h-full bg-gradient-to-r from-neon-green to-neon-cyan"
+                      style={{ width: `${stat.usage}%` }}
+                    />
+                  </div>
                 </div>
-                <p className="font-bold text-lg mb-2">{stat.value}</p>
-                <div className="h-1 bg-muted rounded-full overflow-hidden">
-                  <div
-                    className="h-full bg-gradient-to-r from-neon-green to-neon-cyan"
-                    style={{ width: `${stat.usage}%` }}
-                  />
-                </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          </ScrollReveal>
 
           {/* Skills by Category */}
           <div className="grid lg:grid-cols-2 gap-8">
             {categories.map((category) => (
+              <ScrollReveal delay={200 + categories.indexOf(category) * 100}>
               <TerminalWindow
                 key={category.id}
                 title={`${category.name.toLowerCase()}_skills.stat`}
@@ -108,38 +114,41 @@ const Skills = () => {
                     ))}
                 </div>
               </TerminalWindow>
+              </ScrollReveal>
             ))}
           </div>
 
           {/* Technologies Grid */}
-          <div className="mt-16">
-            <p className="font-mono text-sm neon-text-cyan mb-6">
-              <span className="text-muted-foreground">$</span> neofetch --tech-stack
-            </p>
+          <ScrollReveal delay={400}>
+            <div className="mt-16">
+              <p className="font-mono text-sm neon-text-cyan mb-6">
+                <span className="text-muted-foreground">$</span> neofetch --tech-stack
+              </p>
 
-            <TerminalWindow title="tech_stack.config" variant="floating">
-              <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-3">
-                {[
-                  "JavaScript", "React", "Node.js", "Express",
-                  "HTML5", "CSS3", "MySQL", "PostgreSQL",
-                  "Git", "GitHub", "VS Code", "REST APIs",
-                ].map((tech) => (
-                  <div
-                    key={tech}
-                    className={cn(
-                      "px-3 py-2 text-center font-mono text-sm",
-                      "border border-terminal-border rounded",
-                      "bg-muted/20 hover:bg-neon-green/10",
-                      "hover:border-neon-green/50 hover:text-neon-green",
-                      "transition-all duration-200 cursor-default"
-                    )}
-                  >
-                    {tech}
-                  </div>
-                ))}
-              </div>
-            </TerminalWindow>
-          </div>
+              <TerminalWindow title="tech_stack.config" variant="floating">
+                <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-3">
+                  {[
+                    "JavaScript", "React", "Node.js", "Express",
+                    "HTML5", "CSS3", "MySQL", "PostgreSQL",
+                    "Git", "GitHub", "VS Code", "REST APIs",
+                  ].map((tech) => (
+                    <div
+                      key={tech}
+                      className={cn(
+                        "px-3 py-2 text-center font-mono text-sm",
+                        "border border-terminal-border rounded",
+                        "bg-muted/20 hover:bg-neon-green/10",
+                        "hover:border-neon-green/50 hover:text-neon-green",
+                        "transition-all duration-200 cursor-default"
+                      )}
+                    >
+                      {tech}
+                    </div>
+                  ))}
+                </div>
+              </TerminalWindow>
+            </div>
+          </ScrollReveal>
         </div>
       </section>
     </MainLayout>
