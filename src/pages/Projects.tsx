@@ -3,6 +3,7 @@ import { MainLayout } from "@/components/layout";
 import { TerminalWindow, ProcessList, NeonButton } from "@/components/terminal";
 import { ExternalLink, Github, Filter, Search } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { ScrollReveal } from "@/hooks/use-scroll-reveal";
 
 // Import project images
 import ecommerceDashboard from "@/assets/projects/ecommerce-dashboard.jpg";
@@ -101,15 +102,17 @@ const Projects = () => {
       <section className="py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Header */}
-          <div className="mb-12">
-            <p className="font-mono text-sm neon-text-cyan mb-2">
-              <span className="text-muted-foreground">$</span> ls -la projects/
-            </p>
-            <h1 className="text-4xl font-bold mb-4">Projects</h1>
-            <p className="text-muted-foreground max-w-2xl">
-              A curated collection of full-stack applications, open-source tools, and production systems I've built.
-            </p>
-          </div>
+          <ScrollReveal>
+            <div className="mb-12">
+              <p className="font-mono text-sm neon-text-cyan mb-2">
+                <span className="text-muted-foreground">$</span> ls -la projects/
+              </p>
+              <h1 className="text-4xl font-bold mb-4">Projects</h1>
+              <p className="text-muted-foreground max-w-2xl">
+                A curated collection of full-stack applications, open-source tools, and production systems I've built.
+              </p>
+            </div>
+          </ScrollReveal>
 
           {/* Filters and Search */}
           <div className="flex flex-col sm:flex-row gap-4 mb-8">
@@ -144,16 +147,19 @@ const Projects = () => {
 
           <div className="grid lg:grid-cols-3 gap-8">
             {/* Process List View */}
-            <div className="lg:col-span-2">
-              <TerminalWindow title="ps aux --projects" variant="floating">
-                <ProcessList
-                  processes={filteredProjects}
-                  onProcessClick={(p) => setSelectedProject(p as Project)}
-                />
-              </TerminalWindow>
-            </div>
+            <ScrollReveal delay={100}>
+              <div className="lg:col-span-2">
+                <TerminalWindow title="ps aux --projects" variant="floating">
+                  <ProcessList
+                    processes={filteredProjects}
+                    onProcessClick={(p) => setSelectedProject(p as Project)}
+                  />
+                </TerminalWindow>
+              </div>
+            </ScrollReveal>
 
             {/* Selected Project Details */}
+            <ScrollReveal delay={200}>
             <div className="lg:col-span-1">
               <TerminalWindow
                 title={selectedProject ? `${selectedProject.name.toLowerCase().replace(/\s+/g, '_')}.info` : "select_project.txt"}
@@ -234,17 +240,19 @@ const Projects = () => {
                 )}
               </TerminalWindow>
             </div>
+            </ScrollReveal>
           </div>
 
           {/* Grid View for Featured */}
+          <ScrollReveal>
           <div className="mt-16">
             <h2 className="font-mono text-lg neon-text-cyan mb-6">
               <span className="text-muted-foreground">$</span> ls --featured
             </h2>
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {projects.filter(p => p.featured).map((project) => (
+              {projects.filter(p => p.featured).map((project, index) => (
+                <ScrollReveal key={project.pid} delay={index * 150}>
                 <div
-                  key={project.pid}
                   onClick={() => setSelectedProject(project)}
                   className={cn(
                     "bg-card border border-terminal-border rounded-sm cursor-pointer group overflow-hidden",
@@ -305,9 +313,11 @@ const Projects = () => {
                     </div>
                   </div>
                 </div>
+                </ScrollReveal>
               ))}
             </div>
           </div>
+          </ScrollReveal>
         </div>
       </section>
     </MainLayout>
