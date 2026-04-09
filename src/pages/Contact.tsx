@@ -5,6 +5,7 @@ import { ScrollReveal } from "@/hooks/use-scroll-reveal";
 import { Send, Mail, MapPin, Phone, Github, Linkedin, Twitter } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
+import { supabase } from "@/integrations/supabase/client";
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -24,24 +25,33 @@ const Contact = () => {
     e.preventDefault();
     setIsSubmitting(true);
 
-    // Simulate form submission
     setTerminalOutput((prev) => [
       ...prev,
       `> Sending message from ${formData.email}...`,
-      "Connecting to mail server...",
+      "Connecting to server...",
     ]);
 
-    await new Promise((resolve) => setTimeout(resolve, 1500));
+    const { error } = await supabase.from("contact_messages").insert({
+      name: formData.name,
+      email: formData.email,
+      subject: formData.subject,
+      message: formData.message,
+    });
 
-    setTerminalOutput((prev) => [
-      ...prev,
-      "[OK] Message sent successfully!",
-      `[INFO] Subject: ${formData.subject}`,
-      "",
-    ]);
+    if (error) {
+      setTerminalOutput((prev) => [...prev, "[ERROR] Failed to send message", ""]);
+      toast.error("Failed to send message. Please try again.");
+    } else {
+      setTerminalOutput((prev) => [
+        ...prev,
+        "[OK] Message sent successfully!",
+        `[INFO] Subject: ${formData.subject}`,
+        "",
+      ]);
+      toast.success("Message sent successfully!");
+      setFormData({ name: "", email: "", subject: "", message: "" });
+    }
 
-    toast.success("Message sent successfully!");
-    setFormData({ name: "", email: "", subject: "", message: "" });
     setIsSubmitting(false);
   };
 
