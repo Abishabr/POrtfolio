@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils";
 import { ScrollReveal } from "@/hooks/use-scroll-reveal";
 
 // Import project images
+import hutmcWebsite from "@/assets/projects/hutmc-website.jpg";
 import ecommerceDashboard from "@/assets/projects/ecommerce-dashboard.jpg";
 import realtimeChat from "@/assets/projects/realtime-chat.jpg";
 import aiCodeAssistant from "@/assets/projects/ai-code-assistant.jpg";
@@ -26,60 +27,52 @@ interface Project {
 const projects: Project[] = [
   {
     pid: 1001,
-    name: "E-Commerce Dashboard",
-    status: "completed",
-    description: "A comprehensive admin dashboard for e-commerce platforms with real-time analytics, inventory management, and sales tracking.",
-    tech: ["React", "Node.js", "PostgreSQL", "Stripe", "Recharts"],
-    links: { github: "https://github.com", live: "https://demo.com" },
-    image: ecommerceDashboard,
+    name: "HUTMC Website",
+    status: "running",
+    description: "A full-featured website for Haramaya University Theatre & Music Club with event management, member profiles, gallery, and responsive design.",
+    tech: ["React", "TypeScript", "Tailwind CSS", "Vite"],
+    links: { github: "https://github.com/Abishabr", live: "https://hutmc.vercel.app" },
+    image: hutmcWebsite,
     featured: true,
   },
   {
     pid: 1002,
-    name: "AI Code Assistant",
-    status: "running",
-    description: "An intelligent VS Code extension that provides AI-powered code suggestions, refactoring, and documentation generation.",
-    tech: ["TypeScript", "OpenAI", "VS Code API", "React"],
-    links: { github: "https://github.com", live: "https://marketplace.visualstudio.com" },
-    image: aiCodeAssistant,
+    name: "E-Commerce Dashboard",
+    status: "completed",
+    description: "A comprehensive admin dashboard for e-commerce platforms with real-time analytics, inventory management, and sales tracking.",
+    tech: ["React", "Node.js", "PostgreSQL", "Express"],
+    links: { github: "https://github.com/Abishabr" },
+    image: ecommerceDashboard,
     featured: true,
   },
   {
     pid: 1003,
     name: "Real-Time Chat App",
     status: "completed",
-    description: "A full-featured messaging platform with WebSocket support, file sharing, emoji reactions, and end-to-end encryption.",
-    tech: ["React", "Socket.io", "MongoDB", "Express", "Redis"],
-    links: { github: "https://github.com" },
+    description: "A full-featured messaging platform with WebSocket support, file sharing, and real-time notifications.",
+    tech: ["React", "Node.js", "MySQL", "Express"],
+    links: { github: "https://github.com/Abishabr" },
     image: realtimeChat,
     featured: true,
   },
   {
     pid: 1004,
-    name: "Crypto Portfolio Tracker",
-    status: "running",
-    description: "Track cryptocurrency investments in real-time with price alerts, portfolio analytics, and DeFi protocol integration.",
-    tech: ["React", "Web3.js", "GraphQL", "CoinGecko API"],
-    links: { github: "https://github.com", live: "https://demo.com" },
-    image: cryptoTracker,
-  },
-  {
-    pid: 1005,
     name: "Task Manager Pro",
     status: "completed",
-    description: "A Kanban-style project management tool with drag-and-drop, team collaboration, time tracking, and integrations.",
-    tech: ["React", "TypeScript", "Prisma", "PostgreSQL"],
-    links: { live: "https://demo.com" },
+    description: "A Kanban-style project management tool with drag-and-drop, team collaboration, and task tracking.",
+    tech: ["React", "TypeScript", "Node.js", "PostgreSQL"],
+    links: { github: "https://github.com/Abishabr" },
     image: taskManager,
     featured: true,
   },
   {
-    pid: 1006,
-    name: "Developer Portfolio CMS",
+    pid: 1005,
+    name: "Crypto Portfolio Tracker",
     status: "pending",
-    description: "A headless CMS specifically designed for developer portfolios with Markdown support and GitHub integration.",
-    tech: ["Next.js", "Prisma", "MDX", "Tailwind"],
-    links: { github: "https://github.com" },
+    description: "Track cryptocurrency investments in real-time with price alerts and portfolio analytics.",
+    tech: ["React", "JavaScript", "REST API", "Tailwind CSS"],
+    links: { github: "https://github.com/Abishabr" },
+    image: cryptoTracker,
   },
 ];
 
