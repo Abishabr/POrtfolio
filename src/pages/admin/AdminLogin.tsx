@@ -55,7 +55,6 @@ const AdminLogin = () => {
         error.message,
       ]);
       toast.error(error.message);
-      setIsSubmitting(false);
     } else {
       setTerminalLines((prev) => [
         ...prev,
@@ -64,9 +63,8 @@ const AdminLogin = () => {
         "Redirecting to dashboard...",
       ]);
       toast.success("Login successful!");
-      // Navigation handled by the isAdmin redirect below once checkAdmin resolves
     }
-  };
+    setIsSubmitting(false);  };
 
   return (
     <div className="min-h-screen bg-background flex items-center justify-center relative overflow-hidden">
