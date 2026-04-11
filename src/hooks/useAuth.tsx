@@ -26,6 +26,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       _role: "admin",
     });
     setIsAdmin(!!data);
+    setIsLoading(false);
   };
 
   useEffect(() => {
@@ -34,11 +35,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         setSession(session);
         setUser(session?.user ?? null);
         if (session?.user) {
+          setIsLoading(true);
           setTimeout(() => checkAdmin(session.user.id), 0);
         } else {
           setIsAdmin(false);
+          setIsLoading(false);
         }
-        setIsLoading(false);
       }
     );
 
@@ -47,8 +49,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       setUser(session?.user ?? null);
       if (session?.user) {
         checkAdmin(session.user.id);
+      } else {
+        setIsLoading(false);
       }
-      setIsLoading(false);
     });
 
     return () => subscription.unsubscribe();

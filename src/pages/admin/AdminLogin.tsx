@@ -1,4 +1,4 @@
-import { useState, FormEvent } from "react";
+import { useState, useEffect, FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import { Terminal, Lock, Mail, Eye, EyeOff } from "lucide-react";
 import { BinaryBackground, TerminalWindow, NeonButton } from "@/components/terminal";
@@ -20,9 +20,20 @@ const AdminLogin = () => {
     "",
   ]);
 
-  // Redirect if already logged in as admin
-  if (!isLoading && user && isAdmin) {
-    navigate("/admin/dashboard", { replace: true });
+  // Redirect once isAdmin is confirmed (after checkAdmin resolves)
+  useEffect(() => {
+    if (!isLoading && user && isAdmin) {
+      navigate("/admin/dashboard", { replace: true });
+    }
+  }, [isLoading, user, isAdmin, navigate]);
+
+  // Don't render login form while checking auth state
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <p className="font-mono text-sm text-muted-foreground animate-pulse">Verifying session...</p>
+      </div>
+    );
   }
 
   const handleLogin = async (e: FormEvent) => {
@@ -44,6 +55,7 @@ const AdminLogin = () => {
         error.message,
       ]);
       toast.error(error.message);
+      setIsSubmitting(false);
     } else {
       setTerminalLines((prev) => [
         ...prev,
@@ -52,10 +64,8 @@ const AdminLogin = () => {
         "Redirecting to dashboard...",
       ]);
       toast.success("Login successful!");
-      setTimeout(() => navigate("/admin/dashboard"), 500);
+      // Navigation handled by the isAdmin redirect below once checkAdmin resolves
     }
-
-    setIsSubmitting(false);
   };
 
   return (
