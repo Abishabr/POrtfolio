@@ -105,7 +105,7 @@ const CV = () => {
                     <Linkedin className="w-4 h-4" /> Abrham Habtamu
                   </a>
                   <span className="flex items-center gap-1">
-                    <Send className="w-4 h-4" /> @barch
+                    <Send className="w-4 h-4" /> @B_arch
                   </span>
                 </div>
               </div>
@@ -185,7 +185,7 @@ const CV = () => {
                     { icon: Phone, label: "Phone", value: "+251 922 111 347", href: "tel:+251922111347" },
                     { icon: Github, label: "GitHub", value: "github.com/Abishabr", href: "https://github.com/Abishabr" },
                     { icon: Linkedin, label: "LinkedIn", value: "Abrham Habtamu", href: "https://www.linkedin.com/in/abrham-habtamu-24a329310/" },
-                    { icon: Send, label: "Telegram", value: "@barch", href: "https://t.me/barch" },
+                    { icon: Send, label: "Telegram", value: "@B_arch", href: "https://t.me/B_arch" },
                     { icon: MapPin, label: "Location", value: "Ethiopia" },
                   ].map((item) => (
                     <a
