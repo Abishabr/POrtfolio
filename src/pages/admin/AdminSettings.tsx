@@ -61,6 +61,7 @@ const AdminSettings = () => {
     clearInterval(progressInterval);
 
     if (error) {
+      console.error("[CV Upload Error]", error);
       toast.error("Upload failed: " + error.message);
       setCvUploading(false);
       setCvProgress(0);
