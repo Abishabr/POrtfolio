@@ -12,7 +12,7 @@ import profileAvatar from "@/assets/profile-avatar.png";
 
 type Project = Tables<"projects">;
 
-const Home = () => {
+const Home = ({ onOpenCV }: { onOpenCV?: () => void }) => {
   const [showBoot, setShowBoot] = useState(true);
   const [showContent, setShowContent] = useState(false);
   const [featuredProjects, setFeaturedProjects] = useState<Project[]>([]);
@@ -94,12 +94,10 @@ const Home = () => {
                     <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
                   </NeonButton>
                 </Link>
-                <Link to="/cv">
-                  <NeonButton variant="outline" size="lg">
-                    <Download className="w-4 h-4 mr-2" />
-                    Download CV
-                  </NeonButton>
-                </Link>
+                <NeonButton variant="outline" size="lg" onClick={onOpenCV}>
+                  <Download className="w-4 h-4 mr-2" />
+                  Download CV
+                </NeonButton>
               </div>
 
               {/* Social Links */}

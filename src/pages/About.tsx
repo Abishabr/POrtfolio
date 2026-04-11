@@ -2,11 +2,10 @@ import { MainLayout } from "@/components/layout";
 import { TerminalWindow, TypingText, StatusBar } from "@/components/terminal";
 import { MapPin, Calendar, Award, Code2, Coffee, Zap, Download, BookOpen, Sparkles } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { Link } from "react-router-dom";
 import { ScrollReveal } from "@/hooks/use-scroll-reveal";
 import profileAvatar from "@/assets/profile-avatar.png";
 
-const About = () => {
+const About = ({ onOpenCV }: { onOpenCV?: () => void }) => {
   return (
     <MainLayout>
       <section className="py-20">
@@ -25,8 +24,8 @@ const About = () => {
                   <h1 className="text-4xl font-bold">About Me</h1>
                 </div>
               </div>
-              <Link
-                to="/cv"
+              <button
+                onClick={onOpenCV}
                 className={cn(
                   "inline-flex items-center gap-2 px-5 py-2.5 rounded-lg font-mono text-sm",
                   "bg-neon-green/10 border border-neon-green/30 text-neon-green",
@@ -36,7 +35,7 @@ const About = () => {
               >
                 <Download className="w-4 h-4" />
                 Download CV
-              </Link>
+              </button>
             </div>
           </ScrollReveal>
 
