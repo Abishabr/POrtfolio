@@ -1,14 +1,19 @@
 import { useState, useEffect } from "react";
 import { MainLayout } from "@/components/layout";
 import { TerminalWindow, NeonButton } from "@/components/terminal";
-import { Download, Mail, Phone, Github, Linkedin, MapPin, GraduationCap, Code2, Send } from "lucide-react";
+import { Download, Mail, Phone, Github, Linkedin, MapPin, GraduationCap, Code2, Send, FileText } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { supabase } from "@/integrations/supabase/client";
+import type { Tables } from "@/integrations/supabase/types";
+
+type Skill = Tables<"skills">;
 
 const CV = () => {
   const [cvUrl, setCvUrl] = useState<string | null>(null);
+  const [skills, setSkills] = useState<Skill[]>([]);
 
   useEffect(() => {
+    // Fetch CV URL from settings
     const fetchCvUrl = async () => {
       const { data } = await (supabase.from("settings" as never) as any)
         .select("value")
@@ -16,16 +21,25 @@ const CV = () => {
         .single();
       if (data?.value) setCvUrl(data.value);
     };
+
+    // Fetch skills from Supabase
+    const fetchSkills = async () => {
+      const { data } = await supabase
+        .from("skills")
+        .select("*")
+        .order("display_order", { ascending: true });
+      setSkills(data ?? []);
+    };
+
     fetchCvUrl();
+    fetchSkills();
   }, []);
 
-  const handleDownload = () => {
-    if (cvUrl) {
-      window.open(cvUrl, "_blank");
-    } else {
-      window.print();
-    }
-  };
+  // Group skills by category for CV display
+  const skillGroups = ["frontend", "backend", "database", "tools"].map((cat) => ({
+    category: cat.charAt(0).toUpperCase() + cat.slice(1),
+    skills: skills.filter((s) => s.category === cat).map((s) => s.name),
+  })).filter((g) => g.skills.length > 0);
 
   return (
     <MainLayout>
@@ -39,13 +53,38 @@ const CV = () => {
               </p>
               <h1 className="text-4xl font-bold">My CV</h1>
             </div>
-            <NeonButton variant="green" size="lg" onClick={handleDownload} className="print:hidden">
-              <Download className="w-4 h-4 mr-2" />
-              {cvUrl ? "Download CV" : "Print CV"}
-            </NeonButton>
+            {cvUrl ? (
+              <a href={cvUrl} target="_blank" rel="noopener noreferrer">
+                <NeonButton variant="green" size="lg" className="print:hidden">
+                  <Download className="w-4 h-4 mr-2" />
+                  Download CV
+                </NeonButton>
+              </a>
+            ) : (
+              <NeonButton variant="green" size="lg" onClick={() => window.print()} className="print:hidden">
+                <Download className="w-4 h-4 mr-2" />
+                Print CV
+              </NeonButton>
+            )}
           </div>
 
-          {/* CV Content */}
+          {/* PDF viewer if CV uploaded */}
+          {cvUrl && (
+            <TerminalWindow title="resume.pdf" variant="floating" className="mb-8">
+              <div className="flex flex-col items-center gap-4 py-6">
+                <FileText className="w-16 h-16 text-neon-green opacity-80" />
+                <p className="font-mono text-sm text-muted-foreground">CV uploaded by admin</p>
+                <a href={cvUrl} target="_blank" rel="noopener noreferrer">
+                  <NeonButton variant="green">
+                    <Download className="w-4 h-4 mr-2" />
+                    Open / Download PDF
+                  </NeonButton>
+                </a>
+              </div>
+            </TerminalWindow>
+          )}
+
+          {/* CV Content — always shown as online version */}
           <div id="cv-content" className="space-y-8 print:text-black print:bg-white">
             {/* Name & Contact */}
             <TerminalWindow title="personal_info.json" variant="floating">
@@ -77,8 +116,8 @@ const CV = () => {
               <div className="space-y-2">
                 <p className="font-mono text-sm neon-text-cyan mb-3"># Professional Summary</p>
                 <p className="text-sm leading-relaxed">
-                  Motivated 3rd year IT student at Haramaya University with strong skills in full-stack web development. 
-                  Experienced in building modern web applications using JavaScript, React, Node.js, Express, MySQL, and PostgreSQL. 
+                  Motivated 3rd year IT student at Haramaya University with strong skills in full-stack web development.
+                  Experienced in building modern web applications using JavaScript, React, Node.js, Express, MySQL, and PostgreSQL.
                   Passionate about writing clean, efficient code and continuously learning new technologies.
                 </p>
               </div>
@@ -101,41 +140,38 @@ const CV = () => {
               </div>
             </TerminalWindow>
 
-            {/* Skills */}
+            {/* Skills — from Supabase */}
             <TerminalWindow title="skills.config" variant="floating">
               <div className="space-y-4">
                 <p className="font-mono text-sm neon-text-cyan mb-3"># Technical Skills</p>
-                
-                <div className="space-y-3">
-                  {[
-                    { category: "Languages", skills: ["JavaScript"] },
-                    { category: "Frontend", skills: ["React", "HTML5", "CSS3"] },
-                    { category: "Backend", skills: ["Node.js", "Express"] },
-                    { category: "Databases", skills: ["MySQL", "PostgreSQL"] },
-                    { category: "Tools", skills: ["Git", "GitHub", "VS Code"] },
-                  ].map((group) => (
-                    <div key={group.category} className="flex items-start gap-3">
-                      <Code2 className="w-4 h-4 text-neon-cyan mt-1 flex-shrink-0" />
-                      <div>
-                        <span className="font-mono text-xs text-muted-foreground uppercase">{group.category}:</span>
-                        <div className="flex flex-wrap gap-2 mt-1">
-                          {group.skills.map((skill) => (
-                            <span
-                              key={skill}
-                              className={cn(
-                                "px-2 py-1 text-xs font-mono rounded",
-                                "border border-terminal-border bg-muted/20",
-                                "hover:border-neon-green/50 hover:text-neon-green transition-colors"
-                              )}
-                            >
-                              {skill}
-                            </span>
-                          ))}
+                {skillGroups.length > 0 ? (
+                  <div className="space-y-3">
+                    {skillGroups.map((group) => (
+                      <div key={group.category} className="flex items-start gap-3">
+                        <Code2 className="w-4 h-4 text-neon-cyan mt-1 flex-shrink-0" />
+                        <div>
+                          <span className="font-mono text-xs text-muted-foreground uppercase">{group.category}:</span>
+                          <div className="flex flex-wrap gap-2 mt-1">
+                            {group.skills.map((skill) => (
+                              <span
+                                key={skill}
+                                className={cn(
+                                  "px-2 py-1 text-xs font-mono rounded",
+                                  "border border-terminal-border bg-muted/20",
+                                  "hover:border-neon-green/50 hover:text-neon-green transition-colors"
+                                )}
+                              >
+                                {skill}
+                              </span>
+                            ))}
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  ))}
-                </div>
+                    ))}
+                  </div>
+                ) : (
+                  <p className="font-mono text-xs text-muted-foreground">Loading skills...</p>
+                )}
               </div>
             </TerminalWindow>
 
