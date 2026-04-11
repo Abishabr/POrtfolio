@@ -27,23 +27,28 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         _user_id: userId,
         _role: "admin",
       });
+      console.log("[checkAdmin] RPC result:", { data, error, userId });
       if (!error) {
         setIsAdmin(!!data);
         setIsLoading(false);
         return;
       }
-    } catch (_) {}
+    } catch (e) {
+      console.log("[checkAdmin] RPC threw:", e);
+    }
 
     // Fallback: query user_roles table directly
     try {
-      const { data } = await supabase
+      const { data, error } = await supabase
         .from("user_roles")
         .select("id")
         .eq("user_id", userId)
         .eq("role", "admin")
         .maybeSingle();
+      console.log("[checkAdmin] Direct query result:", { data, error, userId });
       setIsAdmin(!!data);
-    } catch (_) {
+    } catch (e) {
+      console.log("[checkAdmin] Direct query threw:", e);
       setIsAdmin(false);
     }
     setIsLoading(false);
