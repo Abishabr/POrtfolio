@@ -37,13 +37,22 @@ const fallbackImages: Record<string, string> = {
   "Task Manager Pro": taskManager,
 };
 
+const ensureAbsoluteUrl = (url: string | undefined): string | undefined => {
+  if (!url) return undefined;
+  if (url.startsWith("http://") || url.startsWith("https://")) return url;
+  return `https://${url}`;
+};
+
 const mapDBProject = (p: DBProject, idx: number): Project => ({
   pid: 1001 + idx,
   name: p.name,
   status: (p.status as Project["status"]) || "completed",
   description: p.description || "",
   tech: p.tech || [],
-  links: { github: p.github_url || undefined, live: p.live_url || undefined },
+  links: {
+    github: ensureAbsoluteUrl(p.github_url || undefined),
+    live: ensureAbsoluteUrl(p.live_url || undefined),
+  },
   image: p.image_url || fallbackImages[p.name],
   featured: p.featured || false,
 });
