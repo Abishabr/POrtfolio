@@ -49,29 +49,30 @@ const AdminSettings = () => {
     setCvProgress(0);
     const fileName = `cv/resume-${Date.now()}.pdf`;
 
-    await new Promise<void>((resolve) => {
-      const { data: { session } } = { data: { session: null } };
-      const projectId = import.meta.env.VITE_SUPABASE_PROJECT_ID;
-      const anonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
-      const xhr = new XMLHttpRequest();
-      xhr.upload.onprogress = (ev) => {
-        if (ev.lengthComputable) setCvProgress(Math.round((ev.loaded / ev.total) * 100));
-      };
-      xhr.onload = () => resolve();
-      xhr.onerror = () => resolve();
-      xhr.open("POST", `https://${projectId}.supabase.co/storage/v1/object/project-images/${fileName}`);
-      xhr.setRequestHeader("Authorization", `Bearer ${anonKey}`);
-      xhr.setRequestHeader("Content-Type", "application/pdf");
-      xhr.setRequestHeader("x-upsert", "true");
-      xhr.send(file);
-    });
+    // Simulate progress since Supabase SDK doesn't support upload progress
+    const progressInterval = setInterval(() => {
+      setCvProgress((p) => (p < 90 ? p + 10 : p));
+    }, 200);
 
+    const { error } = await supabase.storage
+      .from("project-images")
+      .upload(fileName, file, { upsert: true, contentType: "application/pdf" });
+
+    clearInterval(progressInterval);
+
+    if (error) {
+      toast.error("Upload failed: " + error.message);
+      setCvUploading(false);
+      setCvProgress(0);
+      return;
+    }
+
+    setCvProgress(100);
     const { data } = supabase.storage.from("project-images").getPublicUrl(fileName);
     setCvUrl(data.publicUrl);
     await supabase.from("settings" as never).upsert({ key: "cv_url", value: data.publicUrl });
     toast.success("CV uploaded successfully!");
-    setCvUploading(false);
-    setCvProgress(0);
+    setTimeout(() => { setCvUploading(false); setCvProgress(0); }, 500);
   };
 
   const handleReset = () => {

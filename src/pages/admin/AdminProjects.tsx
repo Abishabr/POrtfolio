@@ -84,24 +84,26 @@ const AdminProjects = () => {
 
     const ext = imageFile.name.split(".").pop();
     const fileName = `${Date.now()}-${projectName.replace(/\s+/g, "-").toLowerCase()}.${ext}`;
-    const projectId = import.meta.env.VITE_SUPABASE_PROJECT_ID;
-    const anonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
 
+    // Simulate progress
     setUploadProgress(0);
-    await new Promise<void>((resolve) => {
-      const xhr = new XMLHttpRequest();
-      xhr.upload.onprogress = (ev) => {
-        if (ev.lengthComputable) setUploadProgress(Math.round((ev.loaded / ev.total) * 100));
-      };
-      xhr.onload = () => resolve();
-      xhr.onerror = () => resolve();
-      xhr.open("POST", `https://${projectId}.supabase.co/storage/v1/object/project-images/${fileName}`);
-      xhr.setRequestHeader("Authorization", `Bearer ${anonKey}`);
-      xhr.setRequestHeader("Content-Type", imageFile.type);
-      xhr.setRequestHeader("x-upsert", "true");
-      xhr.send(imageFile);
-    });
+    const progressInterval = setInterval(() => {
+      setUploadProgress((p) => (p < 90 ? p + 15 : p));
+    }, 150);
 
+    const { error } = await supabase.storage
+      .from("project-images")
+      .upload(fileName, imageFile, { upsert: true });
+
+    clearInterval(progressInterval);
+
+    if (error) {
+      toast.error("Image upload failed: " + error.message);
+      setUploadProgress(0);
+      return formData.image_url || null;
+    }
+
+    setUploadProgress(100);
     const { data: urlData } = supabase.storage.from("project-images").getPublicUrl(fileName);
     return urlData.publicUrl;
   };
