@@ -6,16 +6,17 @@ import { BootScreen } from "@/components/sections/BootScreen";
 import { TerminalWindow, TypingText, NeonButton, StatusBar } from "@/components/terminal";
 import { cn } from "@/lib/utils";
 import { ScrollReveal } from "@/hooks/use-scroll-reveal";
-
-// Import project images
-import ecommerceDashboard from "@/assets/projects/ecommerce-dashboard.jpg";
-import realtimeChat from "@/assets/projects/realtime-chat.jpg";
-import cryptoTracker from "@/assets/projects/crypto-tracker.jpg";
+import { supabase } from "@/integrations/supabase/client";
+import type { Tables } from "@/integrations/supabase/types";
 import profileAvatar from "@/assets/profile-avatar.png";
+
+type Project = Tables<"projects">;
 
 const Home = () => {
   const [showBoot, setShowBoot] = useState(true);
   const [showContent, setShowContent] = useState(false);
+  const [featuredProjects, setFeaturedProjects] = useState<Project[]>([]);
+  const [projectsLoading, setProjectsLoading] = useState(true);
 
   useEffect(() => {
     const bootShown = sessionStorage.getItem("bootShown");
@@ -23,6 +24,19 @@ const Home = () => {
       setShowBoot(false);
       setShowContent(true);
     }
+  }, []);
+
+  useEffect(() => {
+    const fetchFeatured = async () => {
+      const { data } = await supabase
+        .from("projects")
+        .select("*")
+        .eq("featured", true)
+        .order("display_order", { ascending: true });
+      setFeaturedProjects(data ?? []);
+      setProjectsLoading(false);
+    };
+    fetchFeatured();
   }, []);
 
   const handleBootComplete = () => {
@@ -34,27 +48,6 @@ const Home = () => {
   if (showBoot) {
     return <BootScreen onComplete={handleBootComplete} />;
   }
-
-  const featuredProjects = [
-    { 
-      name: "E-Commerce Dashboard", 
-      tech: ["React", "Node.js", "PostgreSQL"], 
-      status: "completed",
-      image: ecommerceDashboard
-    },
-    { 
-      name: "Real-Time Chat App", 
-      tech: ["Socket.io", "MongoDB", "Express"], 
-      status: "running",
-      image: realtimeChat
-    },
-    { 
-      name: "Crypto Portfolio Tracker", 
-      tech: ["React", "Web3.js", "GraphQL"], 
-      status: "completed",
-      image: cryptoTracker
-    },
-  ];
 
   return (
     <MainLayout>
@@ -216,8 +209,12 @@ const Home = () => {
           </ScrollReveal>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {featuredProjects.map((project, index) => (
-              <ScrollReveal key={project.name} delay={index * 150}>
+            {projectsLoading ? (
+              <p className="col-span-3 text-center py-8 font-mono text-sm text-muted-foreground animate-pulse">
+                Loading projects...
+              </p>
+            ) : featuredProjects.map((project, index) => (
+              <ScrollReveal key={project.id} delay={index * 150}>
                 <div
                   className={cn(
                     "terminal-window group cursor-pointer",
@@ -237,18 +234,24 @@ const Home = () => {
                   </div>
                   <div className="p-6 space-y-4">
                     <div className="aspect-video bg-muted/30 rounded overflow-hidden border border-terminal-border">
-                      <img 
-                        src={project.image} 
-                        alt={project.name}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                      />
+                      {project.image_url ? (
+                        <img
+                          src={project.image_url}
+                          alt={project.name}
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                        />
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center">
+                          <span className="font-mono text-xs text-muted-foreground">no image</span>
+                        </div>
+                      )}
                     </div>
                     <div>
                       <h3 className="font-semibold text-lg group-hover:text-neon-green transition-colors">
                         {project.name}
                       </h3>
                       <div className="flex flex-wrap gap-2 mt-2">
-                        {project.tech.map((t) => (
+                        {(project.tech ?? []).map((t) => (
                           <span key={t} className="px-2 py-1 text-xs font-mono bg-muted rounded">
                             {t}
                           </span>
