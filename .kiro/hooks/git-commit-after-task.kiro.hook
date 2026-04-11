@@ -1,14 +1,13 @@
 {
   "enabled": true,
   "name": "Git Commit After Task",
-  "description": "Stages all changes and creates a git commit after each spec task is marked as completed",
+  "description": "Stages all changes and creates a meaningful git commit with a proper message after each spec task is completed",
   "version": "1",
   "when": {
     "type": "postTaskExecution"
   },
   "then": {
-    "type": "runCommand",
-    "command": "git add -A && git diff --cached --quiet || git commit -m \"feat: complete spec task - $(git diff --cached --name-only | head -5 | tr '\\n' ', ' | sed 's/,$//')\"",
-    "timeout": 30
+    "type": "askAgent",
+    "prompt": "A spec task just completed. Stage all changes with `git add -A` and then create a git commit with a proper conventional commit message that accurately describes what was implemented in this task. Use the format: `<type>(<scope>): <short description>` followed by a blank line and a brief body if needed. Types: feat, fix, refactor, chore, docs, test. Run the commit command now."
   }
 }

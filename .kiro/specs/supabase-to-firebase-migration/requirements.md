@@ -181,3 +181,21 @@ This feature migrates the backend of a React + TypeScript + Vite portfolio site 
 3. THE `firebase` npm package SHALL be added to `package.json` dependencies.
 4. THE `src/integrations/supabase/` directory SHALL be replaced by `src/integrations/firebase/` containing `client.ts` and `types.ts`.
 5. THE `src/integrations/firebase/types.ts` file SHALL define TypeScript interfaces for `Project`, `Skill`, and `ContactMessage` matching the Firestore document shapes.
+
+---
+
+### Requirement 12: Real-Time Data Synchronization
+
+**User Story:** As a visitor, I want public pages to reflect admin changes immediately, so that I always see the latest portfolio content without refreshing the page.
+
+#### Acceptance Criteria
+
+1. THE Projects page SHALL use a Firestore `onSnapshot` listener instead of a one-time `getDocs` call, so that any create, update, or delete made by an Admin_User is reflected in the UI within the same listener cycle without a page reload.
+2. THE Skills page SHALL use a Firestore `onSnapshot` listener instead of a one-time `getDocs` call, so that any create, update, or delete made by an Admin_User is reflected in the UI within the same listener cycle without a page reload.
+3. THE Home page "Featured Projects" section SHALL use a Firestore `onSnapshot` listener instead of a one-time `getDocs` call, so that any change to featured projects made by an Admin_User is reflected in the UI within the same listener cycle without a page reload.
+4. WHEN an Admin_User creates, updates, or deletes a Project, THE Projects page SHALL update its displayed project list within the same Firestore listener cycle.
+5. WHEN an Admin_User creates, updates, or deletes a Skill, THE Skills page SHALL update its displayed skill list within the same Firestore listener cycle.
+6. WHEN an Admin_User marks a Contact_Message as read or deletes it, THE AdminMessages page SHALL update its displayed message list within the same Firestore listener cycle without a page reload.
+7. WHEN the AdminDashboard page is active, THE AdminDashboard SHALL use Firestore `onSnapshot` listeners to keep the project count, skill count, total message count, unread message count, and recent messages list up to date in real-time.
+8. WHEN a component using a Firestore `onSnapshot` listener is unmounted, THE component SHALL unsubscribe from the listener to prevent memory leaks.
+9. IF a Firestore `onSnapshot` listener receives an error, THE affected page SHALL display an error message and SHALL NOT render stale or partial data silently.
