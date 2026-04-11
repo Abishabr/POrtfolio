@@ -11,6 +11,16 @@ const AdminSettings = () => {
   const [cvUrl, setCvUrl] = useState("");
   const [cvUploading, setCvUploading] = useState(false);
   const [cvProgress, setCvProgress] = useState(0);
+
+  useEffect(() => {
+    // Load existing CV URL
+    const loadCvUrl = async () => {
+      const { data } = await (supabase.from("settings" as never) as any)
+        .select("value").eq("key", "cv_url").single();
+      if (data?.value) setCvUrl(data.value);
+    };
+    loadCvUrl();
+  }, []);
   const [settings, setSettings] = useState({
     binaryBackground: true,
     typingAnimation: true,
@@ -112,8 +122,23 @@ const AdminSettings = () => {
               </span>
             </div>
             <p className="text-sm text-muted-foreground">
-              Upload a PDF — visitors can download it from the CV page.
+              Upload a PDF — visitors can view and download it from the portfolio.
             </p>
+
+            {/* Current CV preview */}
+            {cvUrl && (
+              <div className="flex items-center gap-3 p-3 rounded-lg border border-neon-green/30 bg-neon-green/5">
+                <FileText className="w-8 h-8 text-neon-green flex-shrink-0" />
+                <div className="flex-1 min-w-0">
+                  <p className="font-mono text-xs neon-text-green">CV uploaded</p>
+                  <a href={cvUrl} target="_blank" rel="noopener noreferrer"
+                    className="font-mono text-xs text-muted-foreground hover:text-neon-green underline truncate block">
+                    View current CV ↗
+                  </a>
+                </div>
+              </div>
+            )}
+
             <div className="flex items-center gap-4">
               <label className={cn(
                 "flex items-center gap-2 px-4 py-2 rounded border cursor-pointer transition-all",
@@ -122,7 +147,7 @@ const AdminSettings = () => {
               )}>
                 <Upload className="w-4 h-4" />
                 <span className="font-mono text-sm">
-                  {cvUploading ? `Uploading ${cvProgress}%` : "Choose PDF"}
+                  {cvUploading ? `Uploading ${cvProgress}%` : cvUrl ? "Change CV" : "Upload CV"}
                 </span>
                 <input
                   type="file"
@@ -132,16 +157,6 @@ const AdminSettings = () => {
                   disabled={cvUploading}
                 />
               </label>
-              {cvUrl && !cvUploading && (
-                <a
-                  href={cvUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="font-mono text-xs neon-text-green underline truncate max-w-xs"
-                >
-                  View current CV ↗
-                </a>
-              )}
             </div>
             {cvUploading && (
               <div className="space-y-1">
