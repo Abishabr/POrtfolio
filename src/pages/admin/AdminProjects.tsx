@@ -1,7 +1,7 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { AdminLayout } from "@/components/admin/AdminLayout";
 import { TerminalWindow, NeonButton } from "@/components/terminal";
-import { Plus, Edit2, Trash2, Search } from "lucide-react";
+import { Plus, Edit2, Trash2, Search, Upload, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
@@ -15,9 +15,13 @@ const AdminProjects = () => {
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingProject, setEditingProject] = useState<Project | null>(null);
+  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [uploading, setUploading] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const [formData, setFormData] = useState({
     name: "", description: "", status: "completed", tech: "",
-    github_url: "", live_url: "", featured: false,
+    github_url: "", live_url: "", featured: false, image_url: "",
   });
 
   const fetchProjects = async () => {
@@ -48,17 +52,58 @@ const AdminProjects = () => {
       github_url: project.github_url || "",
       live_url: project.live_url || "",
       featured: project.featured || false,
+      image_url: project.image_url || "",
     });
+    setImageFile(null);
+    setImagePreview(project.image_url || null);
     setIsModalOpen(true);
   };
 
   const handleAdd = () => {
     setEditingProject(null);
-    setFormData({ name: "", description: "", status: "completed", tech: "", github_url: "", live_url: "", featured: false });
+    setFormData({ name: "", description: "", status: "completed", tech: "", github_url: "", live_url: "", featured: false, image_url: "" });
+    setImageFile(null);
+    setImagePreview(null);
     setIsModalOpen(true);
   };
 
+  const handleImageSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    if (!file.type.startsWith("image/")) {
+      toast.error("Please select an image file");
+      return;
+    }
+    setImageFile(file);
+    setImagePreview(URL.createObjectURL(file));
+  };
+
+  const uploadImage = async (projectName: string): Promise<string | null> => {
+    if (!imageFile) return formData.image_url || null;
+
+    const ext = imageFile.name.split(".").pop();
+    const fileName = `${Date.now()}-${projectName.replace(/\s+/g, "-").toLowerCase()}.${ext}`;
+
+    const { error } = await supabase.storage
+      .from("project-images")
+      .upload(fileName, imageFile, { upsert: true });
+
+    if (error) {
+      toast.error("Image upload failed: " + error.message);
+      return formData.image_url || null;
+    }
+
+    const { data: urlData } = supabase.storage
+      .from("project-images")
+      .getPublicUrl(fileName);
+
+    return urlData.publicUrl;
+  };
+
   const handleSave = async () => {
+    setUploading(true);
+    const imageUrl = await uploadImage(formData.name);
+
     const payload = {
       name: formData.name,
       description: formData.description,
@@ -67,6 +112,7 @@ const AdminProjects = () => {
       github_url: formData.github_url || null,
       live_url: formData.live_url || null,
       featured: formData.featured,
+      image_url: imageUrl,
     };
 
     if (editingProject) {
@@ -82,6 +128,7 @@ const AdminProjects = () => {
         fetchProjects();
       }
     }
+    setUploading(false);
     setIsModalOpen(false);
   };
 
@@ -109,6 +156,7 @@ const AdminProjects = () => {
             <table className="w-full">
               <thead>
                 <tr className="text-left font-mono text-xs text-muted-foreground uppercase tracking-wider border-b border-terminal-border">
+                  <th className="pb-3 pr-4">Image</th>
                   <th className="pb-3 pr-4">Name</th>
                   <th className="pb-3 pr-4">Status</th>
                   <th className="pb-3 pr-4">Featured</th>
@@ -118,9 +166,18 @@ const AdminProjects = () => {
               </thead>
               <tbody className="divide-y divide-terminal-border">
                 {loading ? (
-                  <tr><td colSpan={5} className="py-8 text-center font-mono text-sm text-muted-foreground animate-pulse">Loading...</td></tr>
+                  <tr><td colSpan={6} className="py-8 text-center font-mono text-sm text-muted-foreground animate-pulse">Loading...</td></tr>
                 ) : filteredProjects.map((project) => (
                   <tr key={project.id} className="hover:bg-muted/20">
+                    <td className="py-4 pr-4">
+                      {project.image_url ? (
+                        <img src={project.image_url} alt={project.name} className="w-12 h-12 rounded object-cover border border-terminal-border" />
+                      ) : (
+                        <div className="w-12 h-12 rounded bg-muted/30 border border-terminal-border flex items-center justify-center">
+                          <span className="font-mono text-xs text-muted-foreground">N/A</span>
+                        </div>
+                      )}
+                    </td>
                     <td className="py-4 pr-4">
                       <p className="font-medium">{project.name}</p>
                       <p className="text-xs text-muted-foreground truncate max-w-[200px]">{project.description}</p>
@@ -166,8 +223,48 @@ const AdminProjects = () => {
 
         {isModalOpen && (
           <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4">
-            <TerminalWindow title={editingProject ? "edit_project.sh" : "new_project.sh"} className="w-full max-w-lg">
+            <TerminalWindow title={editingProject ? "edit_project.sh" : "new_project.sh"} className="w-full max-w-lg max-h-[90vh] overflow-y-auto">
               <div className="space-y-4">
+                {/* Image Upload */}
+                <div>
+                  <label className="font-mono text-xs text-muted-foreground uppercase">Project Image</label>
+                  <div className="mt-1 flex items-center gap-4">
+                    {imagePreview ? (
+                      <div className="relative">
+                        <img src={imagePreview} alt="Preview" className="w-20 h-20 rounded object-cover border border-terminal-border" />
+                        <button
+                          type="button"
+                          onClick={() => { setImageFile(null); setImagePreview(null); setFormData({ ...formData, image_url: "" }); }}
+                          className="absolute -top-2 -right-2 p-1 bg-status-error rounded-full text-background"
+                        >
+                          <X className="w-3 h-3" />
+                        </button>
+                      </div>
+                    ) : (
+                      <button
+                        type="button"
+                        onClick={() => fileInputRef.current?.click()}
+                        className="w-20 h-20 rounded border-2 border-dashed border-terminal-border hover:border-neon-green/50 flex flex-col items-center justify-center gap-1 transition-colors"
+                      >
+                        <Upload className="w-5 h-5 text-muted-foreground" />
+                        <span className="font-mono text-[10px] text-muted-foreground">Upload</span>
+                      </button>
+                    )}
+                    <input ref={fileInputRef} type="file" accept="image/*" onChange={handleImageSelect} className="hidden" />
+                    {!imagePreview && (
+                      <div className="flex-1">
+                        <input
+                          type="text"
+                          placeholder="Or paste image URL..."
+                          value={formData.image_url}
+                          onChange={(e) => { setFormData({ ...formData, image_url: e.target.value }); setImagePreview(e.target.value || null); }}
+                          className="w-full px-4 py-2 bg-muted/30 border border-terminal-border rounded font-mono text-sm focus:outline-none focus:border-neon-green/50"
+                        />
+                      </div>
+                    )}
+                  </div>
+                </div>
+
                 <div>
                   <label className="font-mono text-xs text-muted-foreground uppercase">Name</label>
                   <input type="text" value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })}
@@ -215,8 +312,8 @@ const AdminProjects = () => {
                 </div>
                 <div className="flex gap-3 pt-4">
                   <NeonButton variant="outline" className="flex-1" onClick={() => setIsModalOpen(false)}>Cancel</NeonButton>
-                  <NeonButton variant="green" className="flex-1" onClick={handleSave}>
-                    {editingProject ? "Update" : "Create"}
+                  <NeonButton variant="green" className="flex-1" onClick={handleSave} disabled={uploading}>
+                    {uploading ? <span className="animate-pulse">Uploading...</span> : editingProject ? "Update" : "Create"}
                   </NeonButton>
                 </div>
               </div>
