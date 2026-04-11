@@ -10,6 +10,7 @@ import { supabase } from "@/integrations/supabase/client";
 const AdminSettings = () => {
   const [cvUrl, setCvUrl] = useState("");
   const [cvUploading, setCvUploading] = useState(false);
+  const [cvProgress, setCvProgress] = useState(0);
   const [settings, setSettings] = useState({
     binaryBackground: true,
     typingAnimation: true,
@@ -35,21 +36,32 @@ const AdminSettings = () => {
       return;
     }
     setCvUploading(true);
+    setCvProgress(0);
     const fileName = `cv/resume-${Date.now()}.pdf`;
-    const { error } = await supabase.storage
-      .from("project-images")
-      .upload(fileName, file, { upsert: true, contentType: "application/pdf" });
 
-    if (error) {
-      toast.error("Upload failed: " + error.message);
-    } else {
-      const { data } = supabase.storage.from("project-images").getPublicUrl(fileName);
-      setCvUrl(data.publicUrl);
-      // Store URL in settings table
-      await supabase.from("settings" as never).upsert({ key: "cv_url", value: data.publicUrl });
-      toast.success("CV uploaded successfully!");
-    }
+    await new Promise<void>((resolve) => {
+      const { data: { session } } = { data: { session: null } };
+      const projectId = import.meta.env.VITE_SUPABASE_PROJECT_ID;
+      const anonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
+      const xhr = new XMLHttpRequest();
+      xhr.upload.onprogress = (ev) => {
+        if (ev.lengthComputable) setCvProgress(Math.round((ev.loaded / ev.total) * 100));
+      };
+      xhr.onload = () => resolve();
+      xhr.onerror = () => resolve();
+      xhr.open("POST", `https://${projectId}.supabase.co/storage/v1/object/project-images/${fileName}`);
+      xhr.setRequestHeader("Authorization", `Bearer ${anonKey}`);
+      xhr.setRequestHeader("Content-Type", "application/pdf");
+      xhr.setRequestHeader("x-upsert", "true");
+      xhr.send(file);
+    });
+
+    const { data } = supabase.storage.from("project-images").getPublicUrl(fileName);
+    setCvUrl(data.publicUrl);
+    await supabase.from("settings" as never).upsert({ key: "cv_url", value: data.publicUrl });
+    toast.success("CV uploaded successfully!");
     setCvUploading(false);
+    setCvProgress(0);
   };
 
   const handleReset = () => {
@@ -110,7 +122,7 @@ const AdminSettings = () => {
               )}>
                 <Upload className="w-4 h-4" />
                 <span className="font-mono text-sm">
-                  {cvUploading ? "Uploading..." : "Choose PDF"}
+                  {cvUploading ? `Uploading ${cvProgress}%` : "Choose PDF"}
                 </span>
                 <input
                   type="file"
@@ -120,7 +132,7 @@ const AdminSettings = () => {
                   disabled={cvUploading}
                 />
               </label>
-              {cvUrl && (
+              {cvUrl && !cvUploading && (
                 <a
                   href={cvUrl}
                   target="_blank"
@@ -131,6 +143,20 @@ const AdminSettings = () => {
                 </a>
               )}
             </div>
+            {cvUploading && (
+              <div className="space-y-1">
+                <div className="flex justify-between font-mono text-xs text-muted-foreground">
+                  <span>Uploading CV...</span>
+                  <span>{cvProgress}%</span>
+                </div>
+                <div className="h-2 bg-muted rounded-full overflow-hidden">
+                  <div
+                    className="h-full bg-gradient-to-r from-neon-green to-neon-cyan transition-all duration-200"
+                    style={{ width: `${cvProgress}%` }}
+                  />
+                </div>
+              </div>
+            )}
           </div>
         </TerminalWindow>
 

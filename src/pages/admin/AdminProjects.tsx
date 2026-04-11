@@ -18,6 +18,7 @@ const AdminProjects = () => {
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [uploading, setUploading] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState(0);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [formData, setFormData] = useState({
     name: "", description: "", status: "completed", tech: "",
@@ -83,20 +84,25 @@ const AdminProjects = () => {
 
     const ext = imageFile.name.split(".").pop();
     const fileName = `${Date.now()}-${projectName.replace(/\s+/g, "-").toLowerCase()}.${ext}`;
+    const projectId = import.meta.env.VITE_SUPABASE_PROJECT_ID;
+    const anonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
 
-    const { error } = await supabase.storage
-      .from("project-images")
-      .upload(fileName, imageFile, { upsert: true });
+    setUploadProgress(0);
+    await new Promise<void>((resolve) => {
+      const xhr = new XMLHttpRequest();
+      xhr.upload.onprogress = (ev) => {
+        if (ev.lengthComputable) setUploadProgress(Math.round((ev.loaded / ev.total) * 100));
+      };
+      xhr.onload = () => resolve();
+      xhr.onerror = () => resolve();
+      xhr.open("POST", `https://${projectId}.supabase.co/storage/v1/object/project-images/${fileName}`);
+      xhr.setRequestHeader("Authorization", `Bearer ${anonKey}`);
+      xhr.setRequestHeader("Content-Type", imageFile.type);
+      xhr.setRequestHeader("x-upsert", "true");
+      xhr.send(imageFile);
+    });
 
-    if (error) {
-      toast.error("Image upload failed: " + error.message);
-      return formData.image_url || null;
-    }
-
-    const { data: urlData } = supabase.storage
-      .from("project-images")
-      .getPublicUrl(fileName);
-
+    const { data: urlData } = supabase.storage.from("project-images").getPublicUrl(fileName);
     return urlData.publicUrl;
   };
 
@@ -313,9 +319,23 @@ const AdminProjects = () => {
                 <div className="flex gap-3 pt-4">
                   <NeonButton variant="outline" className="flex-1" onClick={() => setIsModalOpen(false)}>Cancel</NeonButton>
                   <NeonButton variant="green" className="flex-1" onClick={handleSave} disabled={uploading}>
-                    {uploading ? <span className="animate-pulse">Uploading...</span> : editingProject ? "Update" : "Create"}
+                    {uploading ? `Uploading ${uploadProgress}%` : editingProject ? "Update" : "Create"}
                   </NeonButton>
                 </div>
+                {uploading && imageFile && (
+                  <div className="space-y-1">
+                    <div className="flex justify-between font-mono text-xs text-muted-foreground">
+                      <span>Uploading image...</span>
+                      <span>{uploadProgress}%</span>
+                    </div>
+                    <div className="h-2 bg-muted rounded-full overflow-hidden">
+                      <div
+                        className="h-full bg-gradient-to-r from-neon-green to-neon-cyan transition-all duration-200"
+                        style={{ width: `${uploadProgress}%` }}
+                      />
+                    </div>
+                  </div>
+                )}
               </div>
             </TerminalWindow>
           </div>
