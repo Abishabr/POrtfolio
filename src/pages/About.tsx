@@ -9,12 +9,12 @@ const About = ({ onOpenCV }: { onOpenCV?: () => void }) => {
   return (
     <MainLayout>
       <section className="py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Header */}
           <ScrollReveal>
             <div className="mb-12 flex items-center justify-between flex-wrap gap-6">
               <div className="flex items-center gap-6">
-                <div className="w-24 h-24 rounded-full border-2 border-neon-green/50 overflow-hidden shadow-[0_0_30px_hsl(156_100%_50%_/_0.2)]">
+                <div className="w-32 h-32 rounded-full border-2 border-neon-green/50 overflow-hidden shadow-[0_0_30px_hsl(156_100%_50%_/_0.2)]">
                   <img src={profileAvatar} alt="Abrham Habtamu" width={512} height={512} loading="lazy" className="w-full h-full object-cover" />
                 </div>
                 <div>

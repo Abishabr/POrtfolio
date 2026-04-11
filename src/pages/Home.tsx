@@ -55,13 +55,13 @@ const Home = ({ onOpenCV }: { onOpenCV?: () => void }) => {
       <section className="min-h-[90vh] flex items-center relative overflow-hidden">
         <div className="absolute inset-0 grid-bg opacity-30" />
         
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 relative z-10">
+        <div className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 py-20 relative z-10">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             {/* Left Content */}
             <div className={cn("space-y-8", showContent && "animate-slide-up")}>
               {/* Avatar + Status Badge */}
               <div className="flex items-center gap-4">
-                <div className="w-16 h-16 rounded-full border-2 border-neon-green/50 overflow-hidden shadow-[0_0_20px_hsl(156_100%_50%_/_0.2)]">
+                <div className="w-28 h-28 rounded-full border-2 border-neon-green/50 overflow-hidden shadow-[0_0_20px_hsl(156_100%_50%_/_0.2)]">
                   <img src={profileAvatar} alt="Abrham Habtamu" width={512} height={512} className="w-full h-full object-cover" />
                 </div>
                 <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-neon-green/30 bg-neon-green/5">
@@ -166,7 +166,7 @@ const Home = ({ onOpenCV }: { onOpenCV?: () => void }) => {
 
       {/* Quick Stats Section */}
       <section className="py-20 border-t border-terminal-border">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {[
               { label: "Year", value: "3rd" },
@@ -194,7 +194,7 @@ const Home = ({ onOpenCV }: { onOpenCV?: () => void }) => {
 
       {/* Featured Projects Preview */}
       <section className="py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8">
           <ScrollReveal>
             <div className="flex justify-between items-center mb-12">
               <div>
