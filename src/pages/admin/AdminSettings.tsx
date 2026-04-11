@@ -1,12 +1,15 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { AdminLayout } from "@/components/admin/AdminLayout";
 import { TerminalWindow, NeonButton } from "@/components/terminal";
 import { Switch } from "@/components/ui/switch";
-import { Save, RefreshCw, Palette, Zap, Eye, Code } from "lucide-react";
+import { Save, RefreshCw, Palette, Zap, Eye, Code, Upload, FileText } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
+import { supabase } from "@/integrations/supabase/client";
 
 const AdminSettings = () => {
+  const [cvUrl, setCvUrl] = useState("");
+  const [cvUploading, setCvUploading] = useState(false);
   const [settings, setSettings] = useState({
     binaryBackground: true,
     typingAnimation: true,
@@ -22,6 +25,31 @@ const AdminSettings = () => {
 
   const handleSave = () => {
     toast.success("Settings saved successfully");
+  };
+
+  const handleCvUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    if (file.type !== "application/pdf") {
+      toast.error("Please select a PDF file");
+      return;
+    }
+    setCvUploading(true);
+    const fileName = `cv/resume-${Date.now()}.pdf`;
+    const { error } = await supabase.storage
+      .from("project-images")
+      .upload(fileName, file, { upsert: true, contentType: "application/pdf" });
+
+    if (error) {
+      toast.error("Upload failed: " + error.message);
+    } else {
+      const { data } = supabase.storage.from("project-images").getPublicUrl(fileName);
+      setCvUrl(data.publicUrl);
+      // Store URL in settings table
+      await supabase.from("settings" as never).upsert({ key: "cv_url", value: data.publicUrl });
+      toast.success("CV uploaded successfully!");
+    }
+    setCvUploading(false);
   };
 
   const handleReset = () => {
@@ -61,6 +89,50 @@ const AdminSettings = () => {
             </NeonButton>
           </div>
         </div>
+
+        {/* CV Upload */}
+        <TerminalWindow title="cv_upload.sh" variant="floating">
+          <div className="space-y-4">
+            <div className="flex items-center gap-2 mb-4">
+              <FileText className="w-5 h-5 text-neon-cyan" />
+              <span className="font-mono text-sm neon-text-cyan uppercase tracking-wider">
+                CV / Resume Upload
+              </span>
+            </div>
+            <p className="text-sm text-muted-foreground">
+              Upload a PDF — visitors can download it from the CV page.
+            </p>
+            <div className="flex items-center gap-4">
+              <label className={cn(
+                "flex items-center gap-2 px-4 py-2 rounded border cursor-pointer transition-all",
+                "border-terminal-border hover:border-neon-green/50 hover:text-neon-green",
+                cvUploading && "opacity-50 pointer-events-none"
+              )}>
+                <Upload className="w-4 h-4" />
+                <span className="font-mono text-sm">
+                  {cvUploading ? "Uploading..." : "Choose PDF"}
+                </span>
+                <input
+                  type="file"
+                  accept="application/pdf"
+                  className="hidden"
+                  onChange={handleCvUpload}
+                  disabled={cvUploading}
+                />
+              </label>
+              {cvUrl && (
+                <a
+                  href={cvUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-mono text-xs neon-text-green underline truncate max-w-xs"
+                >
+                  View current CV ↗
+                </a>
+              )}
+            </div>
+          </div>
+        </TerminalWindow>
 
         {/* Visual Effects */}
         <TerminalWindow title="visual_effects.config" variant="floating">

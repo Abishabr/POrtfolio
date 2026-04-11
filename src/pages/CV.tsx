@@ -1,11 +1,30 @@
+import { useState, useEffect } from "react";
 import { MainLayout } from "@/components/layout";
 import { TerminalWindow, NeonButton } from "@/components/terminal";
 import { Download, Mail, Phone, Github, Linkedin, MapPin, GraduationCap, Code2, Send } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { supabase } from "@/integrations/supabase/client";
 
 const CV = () => {
-  const handlePrint = () => {
-    window.print();
+  const [cvUrl, setCvUrl] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchCvUrl = async () => {
+      const { data } = await (supabase.from("settings" as never) as any)
+        .select("value")
+        .eq("key", "cv_url")
+        .single();
+      if (data?.value) setCvUrl(data.value);
+    };
+    fetchCvUrl();
+  }, []);
+
+  const handleDownload = () => {
+    if (cvUrl) {
+      window.open(cvUrl, "_blank");
+    } else {
+      window.print();
+    }
   };
 
   return (
@@ -20,9 +39,9 @@ const CV = () => {
               </p>
               <h1 className="text-4xl font-bold">My CV</h1>
             </div>
-            <NeonButton variant="green" size="lg" onClick={handlePrint} className="print:hidden">
+            <NeonButton variant="green" size="lg" onClick={handleDownload} className="print:hidden">
               <Download className="w-4 h-4 mr-2" />
-              Download CV
+              {cvUrl ? "Download CV" : "Print CV"}
             </NeonButton>
           </div>
 
