@@ -55,7 +55,7 @@ const Home = ({ onOpenCV }: { onOpenCV?: () => void }) => {
       <section className="min-h-[90vh] flex items-center relative overflow-hidden">
         <div className="absolute inset-0 grid-bg opacity-30" />
         
-        <div className="w-full px-4 sm:px-8 lg:px-16 py-20 relative z-10">
+        <div className="w-full px-4 sm:px-8 lg:px-20 xl:px-32 py-20 relative z-10">
           <div className="grid lg:grid-cols-2 gap-16 items-center max-w-screen-2xl mx-auto">
             {/* Left Content */}
             <div className={cn("space-y-8", showContent && "animate-slide-up")}>
@@ -72,7 +72,7 @@ const Home = ({ onOpenCV }: { onOpenCV?: () => void }) => {
 
               {/* Heading */}
               <div className="space-y-4">
-                <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight">
+                <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold leading-tight">
                   <span className="text-muted-foreground font-mono text-lg block mb-2">
                     <span className="neon-text-cyan">$</span> whoami
                   </span>
