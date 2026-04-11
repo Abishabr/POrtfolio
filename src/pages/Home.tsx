@@ -55,8 +55,8 @@ const Home = ({ onOpenCV }: { onOpenCV?: () => void }) => {
       <section className="min-h-[90vh] flex items-center relative overflow-hidden">
         <div className="absolute inset-0 grid-bg opacity-30" />
         
-        <div className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 py-20 relative z-10">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
+        <div className="w-full px-4 sm:px-8 lg:px-16 py-20 relative z-10">
+          <div className="grid lg:grid-cols-2 gap-16 items-center max-w-screen-2xl mx-auto">
             {/* Left Content */}
             <div className={cn("space-y-8", showContent && "animate-slide-up")}>
               {/* Avatar + Status Badge */}
