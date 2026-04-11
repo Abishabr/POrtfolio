@@ -1,0 +1,14 @@
+{
+  "enabled": true,
+  "name": "Git Commit After Task",
+  "description": "Stages all changes and creates a git commit after each spec task is marked as completed",
+  "version": "1",
+  "when": {
+    "type": "postTaskExecution"
+  },
+  "then": {
+    "type": "runCommand",
+    "command": "git add -A && git diff --cached --quiet || git commit -m \"feat: complete spec task - $(git diff --cached --name-only | head -5 | tr '\\n' ', ' | sed 's/,$//')\"",
+    "timeout": 30
+  }
+}
