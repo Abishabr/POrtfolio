@@ -123,16 +123,16 @@ const Projects = () => {
           ) : (
             <>
               <div className="grid lg:grid-cols-3 gap-8">
-                <ScrollReveal delay={100}>
-                  <div className="lg:col-span-2">
+                <div className="lg:col-span-2">
+                  <ScrollReveal delay={100}>
                     <TerminalWindow title="ps aux --projects" variant="floating">
                       <ProcessList processes={filteredProjects} onProcessClick={(p) => setSelectedProject(p as Project)} />
                     </TerminalWindow>
-                  </div>
-                </ScrollReveal>
+                  </ScrollReveal>
+                </div>
 
-                <ScrollReveal delay={200}>
-                  <div className="lg:col-span-1">
+                <div className="lg:col-span-1">
+                  <ScrollReveal delay={200}>
                     <TerminalWindow
                       title={selectedProject ? `${selectedProject.name.toLowerCase().replace(/\s+/g, '_')}.info` : "select_project.txt"}
                       variant="floating">
@@ -187,8 +187,8 @@ const Projects = () => {
                         </div>
                       )}
                     </TerminalWindow>
-                  </div>
-                </ScrollReveal>
+                  </ScrollReveal>
+                </div>
               </div>
 
               <ScrollReveal>
