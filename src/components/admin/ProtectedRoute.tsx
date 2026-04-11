@@ -8,13 +8,17 @@ export const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
         <p className="font-mono text-sm text-muted-foreground animate-pulse">
-          Loading...
+          Verifying admin access...
         </p>
       </div>
     );
   }
 
-  if (!user || !isAdmin) {
+  if (!user) {
+    return <Navigate to="/admin" replace />;
+  }
+
+  if (!isAdmin) {
     return <Navigate to="/admin" replace />;
   }
 

@@ -21,11 +21,31 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [isLoading, setIsLoading] = useState(true);
 
   const checkAdmin = async (userId: string) => {
-    const { data } = await supabase.rpc("has_role", {
-      _user_id: userId,
-      _role: "admin",
-    });
-    setIsAdmin(!!data);
+    try {
+      // Try RPC first
+      const { data, error } = await supabase.rpc("has_role", {
+        _user_id: userId,
+        _role: "admin",
+      });
+      if (!error) {
+        setIsAdmin(!!data);
+        setIsLoading(false);
+        return;
+      }
+    } catch (_) {}
+
+    // Fallback: query user_roles table directly
+    try {
+      const { data } = await supabase
+        .from("user_roles")
+        .select("id")
+        .eq("user_id", userId)
+        .eq("role", "admin")
+        .maybeSingle();
+      setIsAdmin(!!data);
+    } catch (_) {
+      setIsAdmin(false);
+    }
     setIsLoading(false);
   };
 
