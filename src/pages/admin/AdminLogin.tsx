@@ -5,6 +5,7 @@ import { BinaryBackground, TerminalWindow, NeonButton } from "@/components/termi
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 import { useAuth } from "@/hooks/useAuth";
+import { supabase } from "@/integrations/supabase/client";
 
 const AdminLogin = () => {
   const navigate = useNavigate();
@@ -159,6 +160,28 @@ const AdminLogin = () => {
                 </>
               )}
             </NeonButton>
+
+            <button
+              type="button"
+              onClick={async () => {
+                if (!credentials.email) {
+                  toast.error("Enter your email first");
+                  return;
+                }
+                const { error } = await supabase.auth.resetPasswordForEmail(credentials.email, {
+                  redirectTo: `${window.location.origin}/reset-password`,
+                });
+                if (error) {
+                  toast.error(error.message);
+                } else {
+                  toast.success("Password reset link sent to your email!");
+                  setTerminalLines((prev) => [...prev, `[OK] Reset link sent to ${credentials.email}`]);
+                }
+              }}
+              className="w-full font-mono text-xs text-muted-foreground hover:text-neon-green transition-colors mt-2"
+            >
+              Forgot password?
+            </button>
           </form>
         </TerminalWindow>
 

@@ -17,6 +17,7 @@ import AdminProjects from "./pages/admin/AdminProjects";
 import AdminSkills from "./pages/admin/AdminSkills";
 import AdminMessages from "./pages/admin/AdminMessages";
 import AdminSettings from "./pages/admin/AdminSettings";
+import ResetPassword from "./pages/admin/ResetPassword";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -36,6 +37,7 @@ const App = () => (
             <Route path="/contact" element={<Contact />} />
             <Route path="/cv" element={<CV />} />
             <Route path="/admin" element={<AdminLogin />} />
+            <Route path="/reset-password" element={<ResetPassword />} />
             <Route path="/admin/dashboard" element={<ProtectedRoute><AdminDashboard /></ProtectedRoute>} />
             <Route path="/admin/projects" element={<ProtectedRoute><AdminProjects /></ProtectedRoute>} />
             <Route path="/admin/skills" element={<ProtectedRoute><AdminSkills /></ProtectedRoute>} />
