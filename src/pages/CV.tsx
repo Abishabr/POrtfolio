@@ -10,6 +10,7 @@ type Skill = Tables<"skills">;
 
 const CV = () => {
   const [cvUrl, setCvUrl] = useState<string | null>(null);
+  const [showPdf, setShowPdf] = useState(false);
   const [skills, setSkills] = useState<Skill[]>([]);
 
   useEffect(() => {
@@ -53,35 +54,39 @@ const CV = () => {
               </p>
               <h1 className="text-4xl font-bold">My CV</h1>
             </div>
-            {cvUrl ? (
-              <a href={cvUrl} target="_blank" rel="noopener noreferrer">
-                <NeonButton variant="green" size="lg" className="print:hidden">
+            <div className="flex gap-3 print:hidden">
+              {cvUrl ? (
+                <>
+                  <NeonButton variant="green" size="lg" onClick={() => setShowPdf((v) => !v)}>
+                    <FileText className="w-4 h-4 mr-2" />
+                    {showPdf ? "Hide PDF" : "View CV"}
+                  </NeonButton>
+                  <a href={cvUrl} download target="_blank" rel="noopener noreferrer">
+                    <NeonButton variant="outline" size="lg">
+                      <Download className="w-4 h-4 mr-2" />
+                      Download
+                    </NeonButton>
+                  </a>
+                </>
+              ) : (
+                <NeonButton variant="green" size="lg" onClick={() => window.print()}>
                   <Download className="w-4 h-4 mr-2" />
-                  Download CV
+                  Print CV
                 </NeonButton>
-              </a>
-            ) : (
-              <NeonButton variant="green" size="lg" onClick={() => window.print()} className="print:hidden">
-                <Download className="w-4 h-4 mr-2" />
-                Print CV
-              </NeonButton>
-            )}
+              )}
+            </div>
           </div>
 
-          {/* PDF viewer if CV uploaded */}
-          {cvUrl && (
-            <TerminalWindow title="resume.pdf" variant="floating" className="mb-8">
-              <div className="flex flex-col items-center gap-4 py-6">
-                <FileText className="w-16 h-16 text-neon-green opacity-80" />
-                <p className="font-mono text-sm text-muted-foreground">CV uploaded by admin</p>
-                <a href={cvUrl} target="_blank" rel="noopener noreferrer">
-                  <NeonButton variant="green">
-                    <Download className="w-4 h-4 mr-2" />
-                    Open / Download PDF
-                  </NeonButton>
-                </a>
-              </div>
-            </TerminalWindow>
+          {/* Inline PDF viewer */}
+          {cvUrl && showPdf && (
+            <div className="mb-10 rounded-lg overflow-hidden border border-terminal-border">
+              <iframe
+                src={cvUrl}
+                title="CV PDF"
+                className="w-full"
+                style={{ height: "80vh" }}
+              />
+            </div>
           )}
 
           {/* CV Content — always shown as online version */}
