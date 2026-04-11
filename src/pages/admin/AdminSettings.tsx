@@ -70,7 +70,7 @@ const AdminSettings = () => {
 
   return (
     <AdminLayout>
-      <div className="space-y-6 max-w-4xl">
+      <div className="space-y-6 max-w-4xl mx-auto">
         {/* Header */}
         <div className="flex flex-col sm:flex-row justify-between gap-4">
           <div>
