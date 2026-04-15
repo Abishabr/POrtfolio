@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { AdminLayout } from "@/components/admin/AdminLayout";
 import { TerminalWindow, NeonButton } from "@/components/terminal";
 import { Switch } from "@/components/ui/switch";
-import { Save, RefreshCw, Palette, Zap, Eye, Code, Upload, FileText } from "lucide-react";
+import { Save, RefreshCw, Palette, Zap, Eye, Code, Upload, FileText, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
@@ -33,6 +33,12 @@ const AdminSettings = () => {
     primaryColor: "#00ff9c",
     secondaryColor: "#00eaff",
   });
+
+  const handleCvDelete = async () => {
+    await supabase.from("settings" as never).delete().eq("key", "cv_url");
+    setCvUrl("");
+    toast.success("CV removed");
+  };
 
   const handleSave = () => {
     toast.success("Settings saved successfully");
@@ -138,6 +144,13 @@ const AdminSettings = () => {
                     View current CV ↗
                   </a>
                 </div>
+                <button
+                  onClick={handleCvDelete}
+                  className="p-1.5 text-muted-foreground hover:text-status-error transition-colors flex-shrink-0"
+                  title="Remove CV"
+                >
+                  <X className="w-4 h-4" />
+                </button>
               </div>
             )}
 
